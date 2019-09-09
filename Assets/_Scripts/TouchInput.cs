@@ -46,12 +46,12 @@ public class TouchInput : MonoBehaviour
 
     /// <summary>
     /// 从触摸点构造三角形
-    /// </summary>
-    /// <param name="maxDistance">可连成边的两点之间的最大距离</param>
-    /// <param name="tolerance">通过顶角角度判断物体ID时的角度误差范围</param>
     /// Do not set tolerance higher than half of the smallest distance between your configured vertex angles.
     /// 考虑增加：两点之间最小距离限制
     /// Distance单位为pixel，则屏幕小的时候需要传入更高的距离
+    /// </summary>
+    /// <param name="maxDistance">可连成边的两点之间的最大距离</param>
+    /// <param name="tolerance">判断物体ID时的角度误差范围</param>
     public void GetTriangle(object sender, PointerEventArgs e, float maxDistance = 220, float tolerance = 5)
     {
         GetTouchPoints(sender, e);
@@ -78,8 +78,10 @@ public class TouchInput : MonoBehaviour
     private void GetTouchPoints(object sender, PointerEventArgs e)
     {
         points.Clear();
+
 #if UNITY_EDITOR
 
+        //编辑器下模拟三个点出来构造三角形 方便调试
         for (int i = 0; i < SimulatePoints.Length; i++)
         {
             TouchPoint t = new TouchPoint();

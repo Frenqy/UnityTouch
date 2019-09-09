@@ -23,21 +23,7 @@ public class LightSet : MonoBehaviour
         Instance = this;
     }
 
-    private void OnEnable()
-    {
-        if (TouchManager.Instance != null) TouchManager.Instance.PointersReleased += pointersReleasedHandler;
-    }
-
-    private void OnDisable()
-    {
-        if (TouchManager.Instance != null) TouchManager.Instance.PointersReleased -= pointersReleasedHandler;
-    }
-    private void pointersReleasedHandler(object sender, PointerEventArgs e)
-    {
-        ClearTriangle();
-    }
-
-    void Start()
+    private void Start()
     {
         touch = GetComponent<TouchInput>();
         rectTransform = UIParent.GetComponent<RectTransform>();
@@ -52,24 +38,6 @@ public class LightSet : MonoBehaviour
 
     public void ShowTriangle()
     {
-        //foreach (var p in Panels)
-        //{
-        //    p.SetActive(false);
-        //}
-
-        //for (int i = 0; i < touch.Triangels.Count; i++)
-        //{
-        //    //绘制测试Panel
-        //    Panels[i].SetActive(true);
-        //    Vector2 pos;
-        //    RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, touch.Triangels[i].Center, null, out pos);
-        //    Panels[i].GetComponent<RectTransform>().anchoredPosition = pos;
-        //    Panels[i].GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, touch.Triangels[i].Rotate);
-
-        //    //绘制三角形的边
-        //    DrawTriangle(touch.Triangels[i]);
-        //}
-
         foreach (var triangle in touch.Triangels)
         {
             Panels[triangle.ID].SetActive(true);
@@ -79,18 +47,30 @@ public class LightSet : MonoBehaviour
             Panels[triangle.ID].GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, triangle.Rotate);
 
             //绘制三角形的边
-            DrawTriangle(triangle);
+            //DrawTriangle(triangle);
         }
     }
 
     public void ClearTriangle()
     {
-        for (int i = Lines.Count - 1; i >= 0; i--)
-        {
-            Destroy(Lines[i]);
-            Lines.Remove(Lines[i]);
-        }
+        //for (int i = Lines.Count - 1; i >= 0; i--)
+        //{
+        //    Destroy(Lines[i]);
+        //    Lines.Remove(Lines[i]);
+        //}
 
+        for (int i = 0; i < Panels.Count; i++)
+        {
+            if (Panels[i].activeSelf)
+            {
+                bool open = false;
+                for (int j = 0; j < touch.Triangels.Count; j++)
+                {
+                    if (i == touch.Triangels[j].ID) open = true;
+                }
+                Panels[i].SetActive(open);
+            }
+        }
     }
 
     public void ExitGame()

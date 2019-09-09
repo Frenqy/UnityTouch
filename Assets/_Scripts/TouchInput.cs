@@ -16,17 +16,32 @@ public class TouchInput : MonoBehaviour
 
     private void OnEnable()
     {
-        if (TouchManager.Instance != null) TouchManager.Instance.PointersPressed += pointersPressedHandler;
+        if (TouchManager.Instance != null)
+        {
+            TouchManager.Instance.PointersPressed += pointersPressedHandler;
+            TouchManager.Instance.PointersReleased += pointersReleasedHandler;
+        }
     }
 
     private void OnDisable()
     {
-        if (TouchManager.Instance != null) TouchManager.Instance.PointersPressed -= pointersPressedHandler;
+        if (TouchManager.Instance != null)
+        {
+            TouchManager.Instance.PointersPressed -= pointersPressedHandler;
+            TouchManager.Instance.PointersReleased -= pointersReleasedHandler;
+        }
     }
 
     private void pointersPressedHandler(object sender, PointerEventArgs e)
     {
         GetTriangle(sender, e, 220, 5);
+        LightSet.Instance.ShowTriangle();
+    }
+
+    private void pointersReleasedHandler(object sender, PointerEventArgs e)
+    {
+        GetTriangle(sender, e, 220, 5);
+        LightSet.Instance.ClearTriangle();
     }
 
     /// <summary>
@@ -51,8 +66,6 @@ public class TouchInput : MonoBehaviour
         Triangels.Clear();
 
         Poly2Triangle(tolerance, polyNoDuplicate);
-
-        LightSet.Instance.ShowTriangle();
     }
 
     //-------------------以下是详细的三角形构造算法

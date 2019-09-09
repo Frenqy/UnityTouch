@@ -9,7 +9,7 @@ using System;
 public class TouchInput : MonoBehaviour
 {
     public List<Triangel> Triangels = new List<Triangel>();
-    private List<TouchPoint> points;
+    private List<TouchPoint> points = new List<TouchPoint>();
     private int pointCount;
 
     public Transform[] SimulatePoints;
@@ -18,8 +18,8 @@ public class TouchInput : MonoBehaviour
     {
         if (TouchManager.Instance != null)
         {
-            TouchManager.Instance.PointersPressed += pointersPressedHandler;
-            TouchManager.Instance.PointersReleased += pointersReleasedHandler;
+            TouchManager.Instance.PointersUpdated += pointersPressedHandler;
+            //TouchManager.Instance.PointersReleased += pointersReleasedHandler;
         }
     }
 
@@ -27,8 +27,8 @@ public class TouchInput : MonoBehaviour
     {
         if (TouchManager.Instance != null)
         {
-            TouchManager.Instance.PointersPressed -= pointersPressedHandler;
-            TouchManager.Instance.PointersReleased -= pointersReleasedHandler;
+            TouchManager.Instance.PointersUpdated -= pointersPressedHandler;
+            //TouchManager.Instance.PointersReleased -= pointersReleasedHandler;
         }
     }
 
@@ -36,12 +36,12 @@ public class TouchInput : MonoBehaviour
     {
         GetTriangle(sender, e, 220, 5);
         LightSet.Instance.ShowTriangle();
+        LightSet.Instance.ClearTriangle();
     }
 
     private void pointersReleasedHandler(object sender, PointerEventArgs e)
     {
         GetTriangle(sender, e, 220, 5);
-        LightSet.Instance.ClearTriangle();
     }
 
     /// <summary>
@@ -77,9 +77,9 @@ public class TouchInput : MonoBehaviour
     /// <param name="pointCount"></param>
     private void GetTouchPoints(object sender, PointerEventArgs e)
     {
+        points.Clear();
 #if UNITY_EDITOR
 
-        points = new List<TouchPoint>();
         for (int i = 0; i < SimulatePoints.Length; i++)
         {
             TouchPoint t = new TouchPoint();
@@ -87,11 +87,10 @@ public class TouchInput : MonoBehaviour
             t.Pos = SimulatePoints[i].position;
             points.Add(t);
         }
-        pointCount = 3;
+        pointCount = SimulatePoints.Length;
 
 #else
 
-        points = new List<TouchPoint>();
         pointCount = e.Pointers.Count;
 
         //获取当前所有触摸点 初始化参数

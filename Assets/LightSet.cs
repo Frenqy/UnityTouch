@@ -41,6 +41,7 @@ public class LightSet : MonoBehaviour
         foreach (var triangle in touch.Triangels)
         {
             Panels[triangle.ID].SetActive(true);
+            Panels[triangle.ID].GetComponent<PlaneDetail>().triangel = triangle;
             Vector2 pos;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, triangle.Center, null, out pos);
             Panels[triangle.ID].GetComponent<RectTransform>().anchoredPosition = pos;

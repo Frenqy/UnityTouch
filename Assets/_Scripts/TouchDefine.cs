@@ -228,15 +228,15 @@ public class Triangel
     /// </summary>
     public static int[] Degrees =
     {
+        //7个识别角度，需要180/(7+1)计算得出角度距离
         //Do not set tolerance higher than half of the smallest distance between your configured vertex angles.
-        20,
-        39,
-        79,
-        91,
-        104,
-        134,
-        150,
-        165
+        22,
+        44,//22
+        67,//23
+        90,//23
+        112,//22
+        134,//22
+        157//23
     };
 
 }

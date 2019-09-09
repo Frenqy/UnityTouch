@@ -34,14 +34,9 @@ public class TouchInput : MonoBehaviour
 
     private void pointersPressedHandler(object sender, PointerEventArgs e)
     {
-        GetTriangle(sender, e, 220, 5);
+        GetTriangle(sender, e, 220, 10);
         LightSet.Instance.ShowTriangle();
         LightSet.Instance.ClearTriangle();
-    }
-
-    private void pointersReleasedHandler(object sender, PointerEventArgs e)
-    {
-        GetTriangle(sender, e, 220, 5);
     }
 
     /// <summary>
@@ -52,7 +47,7 @@ public class TouchInput : MonoBehaviour
     /// </summary>
     /// <param name="maxDistance">可连成边的两点之间的最大距离</param>
     /// <param name="tolerance">判断物体ID时的角度误差范围</param>
-    public void GetTriangle(object sender, PointerEventArgs e, float maxDistance = 220, float tolerance = 5)
+    public void GetTriangle(object sender, PointerEventArgs e, float maxDistance, float tolerance)
     {
         GetTouchPoints(sender, e);
 
@@ -249,6 +244,7 @@ public class TouchInput : MonoBehaviour
                     if (t.ApexAngle > Triangel.Degrees[j] - tolerance && t.ApexAngle < Triangel.Degrees[j] + tolerance)
                     {
                         t.ID = j;
+                        break;
                     }
                 }
 

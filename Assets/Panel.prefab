@@ -128,7 +128,7 @@ MonoBehaviour:
   screenTransformThreshold: 0.1
   minScreenPointsDistance: 0.5
   projectionProps: 0
-  projection: 2
+  projection: 0
   projectionPlaneNormal: {x: 0, y: 0, z: 1}
 --- !u!114 &-6466324332362824051
 MonoBehaviour:
@@ -219,8 +219,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1688, y: 975}
+  m_AnchoredPosition: {x: -0.002594, y: 0}
+  m_SizeDelta: {x: 158.86, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6682706069161433981
 CanvasRenderer:

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TouchScript;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,6 +39,9 @@ public class ArgsSetting : MonoBehaviour
     {
         Distance = val;
         DistanceText.text = val.ToString();
+
+        float distanceInCm = val / TouchManager.Instance.DotsPerCentimeter;
+        Debug.Log("DPC: " + distanceInCm);
     }
 
     private void ToleranceChange(float val)

@@ -21,28 +21,91 @@ public class TouchPoint
 /// </summary>
 public class Triangel
 {
-    public Vector2[] Pos = new Vector2[3];
-    public float Rotate;
-
-    public Vector2 Center = new Vector2();
-    public Vector2 Apex = new Vector2();
-
+    /// <summary>
+    /// 识别ID
+    /// </summary>
     public int ID;
-    public float ApexAngle;
-    public float Height;
-    public float Width;
+
+    /// <summary>
+    /// 顶点坐标
+    /// </summary>
+    public Vector2[] Pos = new Vector2[3];
+
+    /// <summary>
+    /// 识别角度枚举
+    /// </summary>
+    public static int[] Degrees =
+    {
+        //7个识别角度，需要180/(7+1)计算得出角度距离
+        //Do not set tolerance higher than half of the smallest distance between your configured vertex angles.
+        22,
+        44,//22
+        67,//23
+        90,//23
+        112,//22
+        134,//22
+        157//23
+    };
+
+    /// <summary>
+    /// 旋转角度
+    /// </summary>
+    public float Rotate { get; private set; }
+
+    /// <summary>
+    /// 中心坐标
+    /// </summary>
+    public Vector2 Center { get; private set; } = new Vector2();
+
+    /// <summary>
+    /// 顶点坐标
+    /// </summary>
+    public Vector2 Apex { get; private set; } = new Vector2();
+
+    /// <summary>
+    /// 顶角角度
+    /// </summary>
+    public float ApexAngle { get; private set; }
+
+    /// <summary>
+    /// 三角形的高的长度
+    /// </summary>
+    public float Height { get; private set; }
+
+    /// <summary>
+    /// 三角形底边长度
+    /// </summary>
+    public float Width { get; private set; }
+
+    /// <summary>
+    /// 根据三个点的位置计算三角形的基本数据
+    /// </summary>
+    public void Init()
+    {
+        int top = FindTop();
+
+        Center = FindCenter();
+        ApexAngle = FindAngleApex(top);
+        Rotate = FindRotate(top);
+        Apex = Pos[top];
+        Width = FindWidth(top);
+        Height = FindHeight(top);
+
+    }
+
+    #region Private Methon
 
     /// <summary>
     /// 计算三角形中心
     /// </summary>
     /// <returns></returns>
-    public Vector2 FindCenter() => (Pos[0] + Pos[1] + Pos[2]) / 3;
+    private Vector2 FindCenter() => (Pos[0] + Pos[1] + Pos[2]) / 3;
 
     /// <summary>
     /// 计算顶点
     /// </summary>
     /// <returns></returns>
-    public int FindTop()
+    private int FindTop()
     {
         float[] dist = new float[3];
         dist[0] = Vector2.Distance(Pos[0], Pos[1]);
@@ -80,7 +143,7 @@ public class Triangel
     /// </summary>
     /// <param name="topPoint"></param>
     /// <returns></returns>
-    public float FindAngleApex(int topPoint)
+    private float FindAngleApex(int topPoint)
     {
         Vector2 a, b, c;
         a = new Vector2();
@@ -126,7 +189,7 @@ public class Triangel
     /// </summary>
     /// <param name="topPoint"></param>
     /// <returns></returns>
-    public float FindRotate(int topPoint)
+    private float FindRotate(int topPoint)
     {
         Vector2 a, b, c;
         a = new Vector2();
@@ -168,7 +231,7 @@ public class Triangel
     /// </summary>
     /// <param name="topPoint"></param>
     /// <returns></returns>
-    public float FindWidth(int topPoint)
+    private float FindWidth(int topPoint)
     {
         Vector2 a, b, c;
         a = new Vector2();
@@ -200,7 +263,7 @@ public class Triangel
     /// </summary>
     /// <param name="topPoint"></param>
     /// <returns></returns>
-    public float FindHeight(int topPoint)
+    private float FindHeight(int topPoint)
     {
         Vector2 a, b, c;
         a = new Vector2();
@@ -229,20 +292,5 @@ public class Triangel
         return Vector2.Distance(middlePt, b);
     }
 
-    /// <summary>
-    /// 识别角度枚举
-    /// </summary>
-    public static int[] Degrees =
-    {
-        //7个识别角度，需要180/(7+1)计算得出角度距离
-        //Do not set tolerance higher than half of the smallest distance between your configured vertex angles.
-        22,
-        44,//22
-        67,//23
-        90,//23
-        112,//22
-        134,//22
-        157//23
-    };
-
+    #endregion
 }

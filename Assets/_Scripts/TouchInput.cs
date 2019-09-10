@@ -227,15 +227,7 @@ public class TouchInput : MonoBehaviour
                 t.Pos[1] = polyNoDuplicate[i][1];
                 t.Pos[2] = polyNoDuplicate[i][2];
 
-                //顶点的下标
-                int topPoint = t.FindTop();
-
-                t.Center = t.FindCenter(); ;
-                t.ApexAngle = t.FindAngleApex(topPoint);
-                t.Rotate = t.FindRotate(topPoint);
-                t.Apex = t.Pos[topPoint];
-                t.Width = t.FindWidth(topPoint);
-                t.Height = t.FindHeight(topPoint);
+                t.Init();
 
                 //获取ID
                 for (int j = 0; j < Triangel.Degrees.Length; j++)

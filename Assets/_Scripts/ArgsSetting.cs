@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 用于设置UI左上角的参数：参数影响三角形生成算法，进而影响操作UI时手指的干扰程度和距离
+/// </summary>
 public class ArgsSetting : MonoBehaviour
 {
     public static float Distance = 220;

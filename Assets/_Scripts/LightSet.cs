@@ -4,6 +4,9 @@ using UnityEngine;
 using TouchScript;
 using System;
 
+/// <summary>
+/// 用于绘制三角形对应的UI
+/// </summary>
 public class LightSet : MonoBehaviour
 {
     public static LightSet Instance;
@@ -28,7 +31,7 @@ public class LightSet : MonoBehaviour
         touch = GetComponent<TouchInput>();
         rectTransform = UIParent.GetComponent<RectTransform>();
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < Triangel.Degrees.Length; i++)
         {
             GameObject go = Instantiate(TestPanel, UIParent.transform);
             go.SetActive(false);

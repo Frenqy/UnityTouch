@@ -39,14 +39,15 @@ public class TouchInput : MonoBehaviour
 
     /// <summary>
     /// 从触摸点构造三角形
-    /// Do not set tolerance higher than half of the smallest distance between your configured vertex angles.
-    /// 考虑增加：两点之间最小距离限制
-    /// Distance单位为pixel，则屏幕小的时候需要传入更高的距离
     /// </summary>
-    /// <param name="maxDistance">可连成边的两点之间的最大距离</param>
-    /// <param name="tolerance">判断物体ID时的角度误差范围</param>
+    /// <param name="maxDistance">可连成边的两点之间的最大距离，单位为像素（屏幕越小，传入值应越大）</param>
+    /// <param name="tolerance">判断物体ID时的角度误差范围，误差范围应不大于角度距离的一半</param>
+    //TODO：
+    //两点间最小距离限制
+    //distance单位转为cm（基于DPI计算，参考手势插件）
     public void GetTriangle(object sender, PointerEventArgs e, float maxDistance, float tolerance)
     {
+
         GetTouchPoints(sender, e);
 
         PairPoints(maxDistance);
@@ -61,7 +62,7 @@ public class TouchInput : MonoBehaviour
         Poly2Triangle(tolerance, polyNoDuplicate);
     }
 
-    //-------------------以下是详细的三角形构造算法
+    #region 详细的三角形构造算法
 
     /// <summary>
     /// 获取触摸点数据
@@ -251,5 +252,5 @@ public class TouchInput : MonoBehaviour
         }
     }
 
-    //---------------------
+    #endregion
 }

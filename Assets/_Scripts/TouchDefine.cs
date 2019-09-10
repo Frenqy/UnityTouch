@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+/// <summary>
+/// 记录触摸点数据
+/// </summary>
 [Serializable]
 public class TouchPoint
 {
@@ -13,6 +16,9 @@ public class TouchPoint
     public bool Paired;
 }
 
+/// <summary>
+/// 记录并计算三角形数据
+/// </summary>
 public class Triangel
 {
     public Vector2[] Pos = new Vector2[3];

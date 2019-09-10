@@ -19,7 +19,6 @@ public class TouchInput : MonoBehaviour
         if (TouchManager.Instance != null)
         {
             TouchManager.Instance.PointersUpdated += pointersPressedHandler;
-            //TouchManager.Instance.PointersReleased += pointersReleasedHandler;
         }
     }
 
@@ -28,13 +27,12 @@ public class TouchInput : MonoBehaviour
         if (TouchManager.Instance != null)
         {
             TouchManager.Instance.PointersUpdated -= pointersPressedHandler;
-            //TouchManager.Instance.PointersReleased -= pointersReleasedHandler;
         }
     }
 
     private void pointersPressedHandler(object sender, PointerEventArgs e)
     {
-        GetTriangle(sender, e, 220, 10);
+        GetTriangle(sender, e, ArgsSetting.Distance, ArgsSetting.Tolerance);
         LightSet.Instance.ShowTriangle();
         LightSet.Instance.ClearTriangle();
     }

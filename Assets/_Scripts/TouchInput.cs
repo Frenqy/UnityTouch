@@ -156,7 +156,6 @@ public class TouchInput : MonoBehaviour
             {
                 //遍历每一个三角形的锁定点列表，检查当前点是否被三角形锁定
                 skipPoint = Triangels[j].pointID.Contains(e.Pointers[i].Id);
-                Debug.Log(skipPoint);
                 if (skipPoint) break;
             }
 

@@ -14,6 +14,8 @@ public class TouchInput : MonoBehaviour
 
     public Transform[] SimulatePoints;
 
+    private Dictionary<Vector2, int> idMap = new Dictionary<Vector2, int>();
+
     private void OnEnable()
     {
         if (TouchManager.Instance != null)
@@ -89,7 +91,7 @@ public class TouchInput : MonoBehaviour
     {
         points.Clear();
 
-#if UNITY_EDITOR1
+#if UNITY_EDITOR
 
         //编辑器下模拟三个点出来构造三角形 方便调试
         for (int i = 0; i < SimulatePoints.Length; i++)
@@ -98,6 +100,8 @@ public class TouchInput : MonoBehaviour
             t.Paired = false;
             t.Pos = SimulatePoints[i].position;
             points.Add(t);
+
+            idMap.Add(SimulatePoints[i].position, i);
         }
         pointCount = SimulatePoints.Length;
 
@@ -124,6 +128,8 @@ public class TouchInput : MonoBehaviour
                 Paired = false,
                 Pos = e.Pointers[i].Position
             };
+
+            idMap.Add(e.Pointers[i].Position, e.Pointers[i].Id);
 
             //Debug.Log($"point's ID: {e.Pointers[i].Id}  pos: {e.Pointers[i].Position}");
 
@@ -257,6 +263,10 @@ public class TouchInput : MonoBehaviour
                 t.Pos[1] = polyNoDuplicate[i][1];
                 t.Pos[2] = polyNoDuplicate[i][2];
 
+                t.pointID.Add(idMap[t.Pos[0]]);
+                t.pointID.Add(idMap[t.Pos[1]]);
+                t.pointID.Add(idMap[t.Pos[2]]);
+
                 t.Init();
 
                 //获取ID
@@ -268,6 +278,8 @@ public class TouchInput : MonoBehaviour
                         break;
                     }
                 }
+
+                Debug.Log($"tri ID: {t.ID} with pointID: {idMap[t.Pos[0]]} , {idMap[t.Pos[1]]} , {idMap[t.Pos[2]]}");
 
                 Triangels.Add(t);
             }

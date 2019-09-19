@@ -81,7 +81,7 @@ public class Triangel
 
     #endregion
 
-    public List<int> pointID;
+    public List<int> pointID = new List<int>();
 
     /// <summary>
     /// 根据三个点的位置计算三角形的基本数据

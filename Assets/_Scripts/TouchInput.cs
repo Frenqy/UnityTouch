@@ -10,7 +10,6 @@ public class TouchInput : MonoBehaviour
 {
     public List<Triangel> Triangels = new List<Triangel>();
     private List<TouchPoint> points = new List<TouchPoint>();
-    private int pointCount;
 
     public Transform[] SimulatePoints;
 
@@ -90,6 +89,7 @@ public class TouchInput : MonoBehaviour
     private void GetTouchPoints(object sender, PointerEventArgs e)
     {
         points.Clear();
+        idMap.Clear();
 
 #if UNITY_EDITOR
 
@@ -107,10 +107,8 @@ public class TouchInput : MonoBehaviour
 
 #else
 
-        pointCount = e.Pointers.Count;
-
         //获取当前所有触摸点 初始化参数
-        for (int i = 0; i < pointCount; i++)
+        for (int i = 0; i < e.Pointers.Count; i++)
         {
             //筛查当前触摸点是否应该被排除
             bool skipPoint = false;
@@ -147,9 +145,9 @@ public class TouchInput : MonoBehaviour
     private void PairPoints(float maxDistance)
     {
         int pairNum = 0;
-        for (int i = 0; i < pointCount; i++)
+        for (int i = 0; i < points.Count; i++)
         {
-            for (int j = 0; j < pointCount; j++)
+            for (int j = 0; j < points.Count; j++)
             {
                 //判断两点之间距离 且不能是同一个点
                 if (i != j && Vector2.Distance(points[i].Pos, points[j].Pos) < maxDistance)

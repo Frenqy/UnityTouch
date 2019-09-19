@@ -14,6 +14,7 @@ public class TouchInput : MonoBehaviour
     public Transform[] SimulatePoints;
 
     private Dictionary<Vector2, int> idMap = new Dictionary<Vector2, int>();
+    private object lockObject = new object();
 
     private void OnEnable()
     {
@@ -65,6 +66,8 @@ public class TouchInput : MonoBehaviour
         二、疑似问题排查：tolerance参数的效果与预期不一致
          */
 
+        TriangleUpdate(e);
+
         GetTouchPoints(sender, e);
 
         PairPoints(maxDistance);
@@ -73,13 +76,51 @@ public class TouchInput : MonoBehaviour
 
         List<List<Vector2>> polyNoDuplicate = DeleteDuplicatePoly(poly);
 
-        //清理已有的三角形
-        Triangels.Clear();
+        ////清理已有的三角形
+        //Triangels.Clear();
 
         Poly2Triangle(tolerance, polyNoDuplicate);
     }
 
     #region 详细的三角形构造算法
+
+    /// <summary>
+    /// 刷新三角形：删除失去跟踪的，更新保持跟踪的信息
+    /// </summary>
+    /// <param name="e"></param>
+    private void TriangleUpdate(PointerEventArgs e)
+    {
+        //获取当前还存在的触摸点的id
+        //List<int> ids = new List<int>();
+        Dictionary<int, Vector2> ids = new Dictionary<int, Vector2>();
+        
+
+        for (int i = 0; i < e.Pointers.Count; i++)
+        {
+            ids.Add(e.Pointers[i].Id, e.Pointers[i].Position);
+        }
+
+        //遍历每一个三角形的id列表，检查当前id列表中是否还存在
+        for (int i = Triangels.Count - 1; i >= 0; i--)
+        {
+            bool contain = true;
+            for (int j = 0; j < Triangels[i].pointID.Count; j++)
+            {
+                contain = ids.Keys.Contains(Triangels[i].pointID[j]);
+                if (!contain) break;
+            }
+            //有任一点id不存在，则删除三角形
+            if (!contain) Triangels.Remove(Triangels[i]);
+            //否则，刷新三角形基本信息
+            else
+            {
+                Triangels[i].Pos[0] = ids[Triangels[i].pointID[0]];
+                Triangels[i].Pos[1] = ids[Triangels[i].pointID[1]];
+                Triangels[i].Pos[2] = ids[Triangels[i].pointID[2]];
+                Triangels[i].Init();
+            }
+        }
+    }
 
     /// <summary>
     /// 获取触摸点数据
@@ -115,22 +156,26 @@ public class TouchInput : MonoBehaviour
             {
                 //遍历每一个三角形的锁定点列表，检查当前点是否被三角形锁定
                 skipPoint = Triangels[j].pointID.Contains(e.Pointers[i].Id);
+                Debug.Log(skipPoint);
                 if (skipPoint) break;
             }
-            if (skipPoint) continue;
 
-            //触摸点不被排除时，加入构造三角形的点列表
-            TouchPoint t = new TouchPoint
+            if (!skipPoint)
             {
-                Paired = false,
-                Pos = e.Pointers[i].Position
-            };
+                //触摸点不被排除时，加入构造三角形的点列表
+                TouchPoint t = new TouchPoint
+                {
+                    Paired = false,
+                    Pos = e.Pointers[i].Position
+                };
 
-            idMap.Add(e.Pointers[i].Position, e.Pointers[i].Id);
+                idMap.Add(e.Pointers[i].Position, e.Pointers[i].Id);
 
-            //Debug.Log($"point's ID: {e.Pointers[i].Id}  pos: {e.Pointers[i].Position}");
+                //Debug.Log($"point's ID: {e.Pointers[i].Id}  pos: {e.Pointers[i].Position}");
 
-            points.Add(t);
+                points.Add(t);
+            }
+
         }
 #endif
     }

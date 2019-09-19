@@ -322,7 +322,7 @@ public class TouchInput : MonoBehaviour
                 }
                 if (!getid) break;
 
-                Debug.Log($"tri ID: {t.ID} with pointID: {idMap[t.Pos[0]]} , {idMap[t.Pos[1]]} , {idMap[t.Pos[2]]}");
+                //Debug.Log($"tri ID: {t.ID} with pointID: {idMap[t.Pos[0]]} , {idMap[t.Pos[1]]} , {idMap[t.Pos[2]]}");
 
                 Triangels.Add(t);
             }

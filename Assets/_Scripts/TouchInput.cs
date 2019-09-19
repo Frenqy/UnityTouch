@@ -14,7 +14,6 @@ public class TouchInput : MonoBehaviour
     public Transform[] SimulatePoints;
 
     private Dictionary<Vector2, int> idMap = new Dictionary<Vector2, int>();
-    private object lockObject = new object();
 
     private void OnEnable()
     {
@@ -132,7 +131,7 @@ public class TouchInput : MonoBehaviour
         points.Clear();
         idMap.Clear();
 
-#if UNITY_EDITOR1
+#if UNITY_EDITOR
 
         //编辑器下模拟三个点出来构造三角形 方便调试
         for (int i = 0; i < SimulatePoints.Length; i++)

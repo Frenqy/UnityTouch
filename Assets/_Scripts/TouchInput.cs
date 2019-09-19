@@ -54,16 +54,16 @@ public class TouchInput : MonoBehaviour
         /*
          一、优化思路：
              1、添加最小距离限制
-             2、已有三角形的点排除与触摸点顺序标记（重要）
+             2、已有三角形的点排除与触摸点顺序标记
                 使用一个列表储存三角形，并同时储存三角形对应的三个点的ID（锁定ID）
                 (1)清理已有三角形的步骤需要提前到获取触摸点之前，遍历三角形，查看对应点是否还存在
-                   符合条件（见第3点）则视为三角形消失，从列表删除三角形，并释放锁定的三个ID
-                (2)获取所有触摸点，然后排除被锁定的ID，从未锁定的点里面构造三角形
+                   符合条件（见第3点）则视为三角形消失，从列表删除三角形（删除即可并释放锁定的三个ID）（已实现）
+                (2)获取所有触摸点，然后排除被锁定的ID，从未锁定的点里面构造三角形（已实现）
                 (3)其余部分保持不变
              3、排除条件：
-                (1)同一三角形内三个点有任一点不存在
+                (1)同一三角形内三个点有任一点不存在（已实现）
                 (2)三个点不能构成三角形或角度不能识别为原有角度
-        二、疑似问题排查：tolerance参数的效果与预期不一致
+        二、疑似问题排查：tolerance参数的效果与预期不一致（已排查修复：识别失败的默认分配了三角形）
          */
 
         TriangleUpdate(e);
@@ -109,7 +109,7 @@ public class TouchInput : MonoBehaviour
                 contain = ids.Keys.Contains(Triangels[i].pointID[j]);
                 if (!contain) break;
             }
-            //有任一点id不存在，则删除三角形
+            //有任一点id不存在，则删除三角形（ID在此自动释放）
             if (!contain) Triangels.Remove(Triangels[i]);
             //否则，刷新三角形基本信息
             else
@@ -297,7 +297,6 @@ public class TouchInput : MonoBehaviour
     {
         for (int i = 0; i < polyNoDuplicate.Count; i++)
         {
-            List<Vector2> triangle = new List<Vector2>();
             if (polyNoDuplicate[i].Count == 3)
             {
                 Triangel t = new Triangel();
@@ -312,14 +311,17 @@ public class TouchInput : MonoBehaviour
                 t.Init();
 
                 //获取ID
+                bool getid = false;
                 for (int j = 0; j < Triangel.Degrees.Length; j++)
                 {
                     if (t.ApexAngle > Triangel.Degrees[j] - tolerance && t.ApexAngle < Triangel.Degrees[j] + tolerance)
                     {
                         t.ID = j;
+                        getid = true;
                         break;
                     }
                 }
+                if (!getid) break;
 
                 Debug.Log($"tri ID: {t.ID} with pointID: {idMap[t.Pos[0]]} , {idMap[t.Pos[1]]} , {idMap[t.Pos[2]]}");
 

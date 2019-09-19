@@ -89,7 +89,7 @@ public class TouchInput : MonoBehaviour
     {
         points.Clear();
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR1
 
         //编辑器下模拟三个点出来构造三角形 方便调试
         for (int i = 0; i < SimulatePoints.Length; i++)
@@ -108,15 +108,27 @@ public class TouchInput : MonoBehaviour
         //获取当前所有触摸点 初始化参数
         for (int i = 0; i < pointCount; i++)
         {
-            TouchPoint t = new TouchPoint();
-            t.Paired = false;
-            t.Pos = e.Pointers[i].Position;
+            //筛查当前触摸点是否应该被排除
+            bool skipPoint = false;
+            for (int j = 0; j < Triangels.Count; j++)
+            {
+                //遍历每一个三角形的锁定点列表，检查当前点是否被三角形锁定
+                skipPoint = Triangels[j].pointID.Contains(e.Pointers[i].Id);
+                if (skipPoint) break;
+            }
+            if (skipPoint) continue;
 
-            Debug.Log($"point's ID: {e.Pointers[i].Id}  pos: {e.Pointers[i].Position}");
+            //触摸点不被排除时，加入构造三角形的点列表
+            TouchPoint t = new TouchPoint
+            {
+                Paired = false,
+                Pos = e.Pointers[i].Position
+            };
+
+            //Debug.Log($"point's ID: {e.Pointers[i].Id}  pos: {e.Pointers[i].Position}");
 
             points.Add(t);
         }
-
 #endif
     }
 

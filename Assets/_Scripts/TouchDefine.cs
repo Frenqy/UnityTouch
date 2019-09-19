@@ -21,6 +21,8 @@ public class TouchPoint
 /// </summary>
 public class Triangel
 {
+    #region Public properties
+
     /// <summary>
     /// 识别ID
     /// </summary>
@@ -76,6 +78,10 @@ public class Triangel
     /// 三角形底边长度
     /// </summary>
     public float Width { get; private set; }
+
+    #endregion
+
+    public List<int> pointID;
 
     /// <summary>
     /// 根据三个点的位置计算三角形的基本数据

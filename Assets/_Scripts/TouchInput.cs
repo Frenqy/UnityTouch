@@ -103,7 +103,6 @@ public class TouchInput : MonoBehaviour
 
             idMap.Add(SimulatePoints[i].position, i);
         }
-        pointCount = SimulatePoints.Length;
 
 #else
 

@@ -132,7 +132,7 @@ public class TouchInput : MonoBehaviour
         points.Clear();
         idMap.Clear();
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR1
 
         //编辑器下模拟三个点出来构造三角形 方便调试
         for (int i = 0; i < SimulatePoints.Length; i++)
@@ -170,7 +170,7 @@ public class TouchInput : MonoBehaviour
 
                 idMap.Add(e.Pointers[i].Position, e.Pointers[i].Id);
 
-                //Debug.Log($"point's ID: {e.Pointers[i].Id}  pos: {e.Pointers[i].Position}");
+                Debug.Log($"point's ID: {e.Pointers[i].Id}  pos: {e.Pointers[i].Position}");
 
                 points.Add(t);
             }

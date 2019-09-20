@@ -1,5 +1,4 @@
-﻿//#define Test
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -8,11 +7,25 @@ using System;
 
 public class TouchInput : MonoBehaviour
 {
-    public List<Triangel> Triangels = new List<Triangel>();
+#if UNITY_EDITOR
+    public Transform[] SimulatePoints;
+#endif
+
+    public static Action<List<Triangel>> MarkerUpdated;
+
+    /// <summary>
+    /// 储存当前识别到的三角形
+    /// </summary>
+    public List<Triangel> Triangels { get; private set; } = new List<Triangel>();
+
+    /// <summary>
+    /// 储存当前未锁定的触摸点
+    /// </summary>
     private List<TouchPoint> points = new List<TouchPoint>();
 
-    public Transform[] SimulatePoints;
-
+    /// <summary>
+    /// 将触摸点按v2-id的方式保存，便于三角形识别后锁定对应的ID
+    /// </summary>
     private Dictionary<Vector2, int> idMap = new Dictionary<Vector2, int>();
 
     private void OnEnable()
@@ -34,6 +47,7 @@ public class TouchInput : MonoBehaviour
     private void pointersPressedHandler(object sender, PointerEventArgs e)
     {
         GetTriangle(sender, e, ArgsSetting.Distance, ArgsSetting.Tolerance);
+        MarkerUpdated?.Invoke(Triangels);
     }
 
     /// <summary>
@@ -41,7 +55,7 @@ public class TouchInput : MonoBehaviour
     /// </summary>
     /// <param name="maxDistance">可连成边的两点之间的最大距离，单位为像素（屏幕越小，传入值应越大）</param>
     /// <param name="tolerance">判断物体ID时的角度误差范围，误差范围应不大于角度距离的一半</param>
-    public void GetTriangle(object sender, PointerEventArgs e, float maxDistance, float tolerance)
+    private void GetTriangle(object sender, PointerEventArgs e, float maxDistance, float tolerance)
     {
         TriangleUpdate(e);
 

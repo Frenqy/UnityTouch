@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class SettingManager : MonoBehaviour
+public static class SettingManager
 {
     public static Setting setting = null;
 
@@ -59,7 +59,8 @@ public class SettingManager : MonoBehaviour
         s.markers.Add(s1);
         s.markers.Add(s2);
 
-        setting = s;
+        //SaveSetting(s, @"F:\marker.json");
+        //setting = s;
     }
 
 }

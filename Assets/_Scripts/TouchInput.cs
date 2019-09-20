@@ -34,8 +34,6 @@ public class TouchInput : MonoBehaviour
     private void pointersPressedHandler(object sender, PointerEventArgs e)
     {
         GetTriangle(sender, e, ArgsSetting.Distance, ArgsSetting.Tolerance);
-        LightSet.Instance.ShowTriangle();
-        LightSet.Instance.ClearTriangle();
     }
 
     /// <summary>

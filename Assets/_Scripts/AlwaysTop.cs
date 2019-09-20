@@ -7,11 +7,11 @@ using TouchScript.Gestures;
 using System;
 
 /// <summary>
-/// 为手势操作的图片添加功能：置于其它图片上方
+/// 为手势操作的物体设置层级结构->置于其它图片上方
 /// </summary>
-public class ImgSetting : MonoBehaviour
+public class AlwaysTop : MonoBehaviour
 {
-    void Start()
+    private void Start()
     {
         var pressGesture = GetComponent<PressGesture>();
         if (pressGesture != null) pressGesture.Pressed += pressedHandler;

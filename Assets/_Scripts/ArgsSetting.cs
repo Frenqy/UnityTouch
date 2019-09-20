@@ -9,7 +9,7 @@ using UnityEngine.UI;
 /// </summary>
 public class ArgsSetting : MonoBehaviour
 {
-    public static float Distance = 220;
+    public static float Distance = 5;
     public static float Tolerance = 10;
 
     public Slider DistanceSlider;
@@ -37,15 +37,14 @@ public class ArgsSetting : MonoBehaviour
 
     private void DistanceChange(float val)
     {
-        Distance = val;
-        DistanceText.text = val.ToString();
-
-        float distanceInCm = val / TouchManager.Instance.DotsPerCentimeter;
+        DistanceText.text = $"{val:F2} CM";
+        Distance = val * TouchManager.Instance.DotsPerCentimeter;
+        Debug.Log($"Dis in Pixel : {Distance:F2}");
     }
 
     private void ToleranceChange(float val)
     {
         Tolerance = val;
-        ToleranceText.text = val.ToString();
+        ToleranceText.text = val.ToString() +" 度";
     }
 }

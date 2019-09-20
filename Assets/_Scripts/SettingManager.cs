@@ -81,8 +81,9 @@ public class MarkerSetting
 [System.Serializable]
 public struct MediaSetting
 {
-    public int ButtonID;
+    public int buttonID;
     public MediaType mediaType;
+    public string[] previewPath;
     public string[] mediaPath;
 }
 

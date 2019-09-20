@@ -83,7 +83,7 @@ public struct MediaSetting
 {
     public int buttonID;
     public MediaType mediaType;
-    public string[] previewPath;
+    public string previewPath;
     public string[] mediaPath;
 }
 

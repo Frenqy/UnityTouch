@@ -41,30 +41,10 @@ public class TouchInput : MonoBehaviour
     /// <summary>
     /// 从触摸点构造三角形
     /// </summary>
-    /// <remarks>
-    /// TODO:
-    /// 两点间最小距离限制
-    /// distance单位转为cm（基于DPI计算，参考手势插件）
-    /// </remarks>
     /// <param name="maxDistance">可连成边的两点之间的最大距离，单位为像素（屏幕越小，传入值应越大）</param>
     /// <param name="tolerance">判断物体ID时的角度误差范围，误差范围应不大于角度距离的一半</param>
     public void GetTriangle(object sender, PointerEventArgs e, float maxDistance, float tolerance)
     {
-        /*
-         一、优化思路：
-             1、添加最小距离限制
-             2、已有三角形的点排除与触摸点顺序标记
-                使用一个列表储存三角形，并同时储存三角形对应的三个点的ID（锁定ID）
-                (1)清理已有三角形的步骤需要提前到获取触摸点之前，遍历三角形，查看对应点是否还存在
-                   符合条件（见第3点）则视为三角形消失，从列表删除三角形（删除即可并释放锁定的三个ID）（已实现）
-                (2)获取所有触摸点，然后排除被锁定的ID，从未锁定的点里面构造三角形（已实现）
-                (3)其余部分保持不变
-             3、排除条件：
-                (1)同一三角形内三个点有任一点不存在（已实现）
-                (2)三个点不能构成三角形或角度不能识别为原有角度
-        二、疑似问题排查：tolerance参数的效果与预期不一致（已排查修复：识别失败的默认分配了三角形）
-         */
-
         TriangleUpdate(e);
 
         GetTouchPoints(sender, e);
@@ -74,9 +54,6 @@ public class TouchInput : MonoBehaviour
         List<List<Vector2>> poly = Pair2Poly();
 
         List<List<Vector2>> polyNoDuplicate = DeleteDuplicatePoly(poly);
-
-        ////清理已有的三角形
-        //Triangels.Clear();
 
         Poly2Triangle(tolerance, polyNoDuplicate);
     }

@@ -39,7 +39,6 @@ public class ArgsSetting : MonoBehaviour
     {
         DistanceText.text = $"{val:F2} CM";
         Distance = val * TouchManager.Instance.DotsPerCentimeter;
-        Debug.Log($"Dis in Pixel : {Distance:F2}");
     }
 
     private void ToleranceChange(float val)

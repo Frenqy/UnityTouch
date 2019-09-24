@@ -17,6 +17,11 @@ public class MarkerManager : MonoBehaviour
 
     private List<Marker> markers = new List<Marker>();
 
+    private void Start()
+    {
+        Init(@"E:\openFramework\SettingTest\marker.json");
+    }
+
     public void Init(string jsonPath)
     {
         //读取设置
@@ -30,7 +35,7 @@ public class MarkerManager : MonoBehaviour
             markers.Add(m);
         }
 
-        //将详细的媒体配置信息传到marker的脚本内
+        //将详细的媒体配置信息传到marker的脚本内，并打开一次marker，初始化信息后再关闭
         for (int i = 0; i < SettingManager.setting.markers.Count; i++)
         {
             int id = SettingManager.setting.markers[i].MarkerID;
@@ -39,6 +44,8 @@ public class MarkerManager : MonoBehaviour
             markers[id].TextPrefab = TextPrefab;
             markers[id].ImagePrefab = ImagePrefab;
             markers[id].VideoPrefab = VideoPrefab;
+
+            markers[id].gameObject.SetActive(true);
         }
     }
 }

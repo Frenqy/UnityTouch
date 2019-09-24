@@ -16,6 +16,12 @@ public class Marker : MonoBehaviour
     [HideInInspector] public GameObject ImagePrefab;
     [HideInInspector] public GameObject VideoPrefab;
 
+
+    private void Start()
+    {
+        StartCoroutine(Init());
+    }
+
     public IEnumerator Init()
     {
        
@@ -31,28 +37,30 @@ public class Marker : MonoBehaviour
             }
 
             //设置按钮本身
-            buttons[medias[i].buttonID].gameObject.SetActive(true);
+            buttons[medias[i].buttonID].transform.parent.gameObject.SetActive(true);
             buttons[medias[i].buttonID].onClick.AddListener(() => MediaParent[i].gameObject.SetActive(MediaParent[i].gameObject.activeSelf));
 
             //根据媒体类型将媒体加载进来
-            switch (medias[i].mediaType)
-            {
-                case MediaType.None:
-                    break;
-                case MediaType.Text:
-                    yield return StartCoroutine(InitText(i));
-                    break;
-                case MediaType.Image:
-                    yield return StartCoroutine(InitImage(i));
-                    break;
-                case MediaType.Video:
-                    yield return StartCoroutine(InitVideo(i));
-                    break;
-                default:
-                    break;
-            }
+            //switch (medias[i].mediaType)
+            //{
+            //    case MediaType.None:
+            //        break;
+            //    case MediaType.Text:
+            //        yield return StartCoroutine(InitText(i));
+            //        break;
+            //    case MediaType.Image:
+            //        yield return StartCoroutine(InitImage(i));
+            //        break;
+            //    case MediaType.Video:
+            //        yield return StartCoroutine(InitVideo(i));
+            //        break;
+            //    default:
+            //        break;
+            //}
         }
 
+        //初始化完毕之后关闭本身
+        gameObject.SetActive(false);
     }
 
     public IEnumerator InitText(int mediaIndex)

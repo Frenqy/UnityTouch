@@ -964,7 +964,8 @@ MonoBehaviour:
     type: 3}
   TextPrefab: {fileID: 9119183578330480056, guid: 1405e97560dff55449ebdb51a217ffd8,
     type: 3}
-  ImagePrefab: {fileID: 0}
+  ImagePrefab: {fileID: 4098750425543327233, guid: eccdcb416da91ac468df29d975a3ef27,
+    type: 3}
   VideoPrefab: {fileID: 0}
   UIParent: {fileID: 52110665}
 --- !u!224 &852890621 stripped
@@ -2327,6 +2328,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Marker
       objectReference: {fileID: 0}
+    - target: {fileID: 5830797755494932574, guid: 544a6adbf7c234e40859b4ecd9a7a678,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5830797755494932575, guid: 544a6adbf7c234e40859b4ecd9a7a678,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2431,6 +2437,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5830797755089641971, guid: 544a6adbf7c234e40859b4ecd9a7a678,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 544a6adbf7c234e40859b4ecd9a7a678, type: 3}

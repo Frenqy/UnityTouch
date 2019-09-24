@@ -41,22 +41,22 @@ public class Marker : MonoBehaviour
             buttons[medias[i].buttonID].onClick.AddListener(() => MediaParent[i].gameObject.SetActive(MediaParent[i].gameObject.activeSelf));
 
             //根据媒体类型将媒体加载进来
-            //switch (medias[i].mediaType)
-            //{
-            //    case MediaType.None:
-            //        break;
-            //    case MediaType.Text:
-            //        yield return StartCoroutine(InitText(i));
-            //        break;
-            //    case MediaType.Image:
-            //        yield return StartCoroutine(InitImage(i));
-            //        break;
-            //    case MediaType.Video:
-            //        yield return StartCoroutine(InitVideo(i));
-            //        break;
-            //    default:
-            //        break;
-            //}
+            switch (medias[i].mediaType)
+            {
+                case MediaType.None:
+                    break;
+                case MediaType.Text:
+                    yield return StartCoroutine(InitText(i));
+                    break;
+                case MediaType.Image:
+                    //yield return StartCoroutine(InitImage(i));
+                    break;
+                case MediaType.Video:
+                    //yield return StartCoroutine(InitVideo(i));
+                    break;
+                default:
+                    break;
+            }
         }
 
         //初始化完毕之后关闭本身
@@ -73,6 +73,8 @@ public class Marker : MonoBehaviour
                 yield return webRequest.SendWebRequest();
                 //UTF-8
                 string content = webRequest.downloadHandler.text;
+                GameObject text = Instantiate(TextPrefab, MediaParent[mediaIndex]);
+                text.GetComponent<Text>().text = content;
             }
         }
     }

@@ -79,7 +79,7 @@ public class MarkerSetting
 }
 
 [System.Serializable]
-public struct MediaSetting
+public class MediaSetting
 {
     public int buttonID;
     public MediaType mediaType;

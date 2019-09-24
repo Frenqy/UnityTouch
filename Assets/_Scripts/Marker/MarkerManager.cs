@@ -20,6 +20,11 @@ public class MarkerManager : MonoBehaviour
     private void Start()
     {
         Init(@"E:\openFramework\SettingTest\marker.json");
+
+        //Setting s = SettingManager.setting;
+        //string[] paths = { @"E:\openFramework\SettingTest\1.txt", "" };
+        //s.markers[0].medias[0].mediaPath = paths;
+        //SettingManager.SaveSetting(s, @"E:\openFramework\SettingTest\new.json");
     }
 
     public void Init(string jsonPath)

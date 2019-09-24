@@ -20,5 +20,6 @@ public class AlwaysTop : MonoBehaviour
     private void pressedHandler(object sender, EventArgs e)
     {
         transform.SetAsLastSibling();
+        transform.parent.SetAsLastSibling();
     }
 }

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7354952697362625242}
   - component: {fileID: 6012033335938028111}
   - component: {fileID: 5017701462034281895}
+  - component: {fileID: -1287428425779349239}
   m_Layer: 5
   m_Name: TextPrefab
   m_TagString: Untagged
@@ -173,3 +174,15 @@ MonoBehaviour:
   rotationThreshold: 0.1
   scaleThreshold: 0.01
   allowChangingFromOutside: 0
+--- !u!114 &-1287428425779349239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9119183578330480056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df318727982eb754998c0ec3486ddb68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

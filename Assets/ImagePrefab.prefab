@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3420026591452760534}
   - component: {fileID: 1435059418700556096}
   - component: {fileID: 4563050048515910610}
+  - component: {fileID: -805446572189484350}
   m_Layer: 5
   m_Name: ImagePrefab
   m_TagString: Untagged
@@ -166,3 +167,15 @@ MonoBehaviour:
   rotationThreshold: 0.1
   scaleThreshold: 0.010000001
   allowChangingFromOutside: 0
+--- !u!114 &-805446572189484350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4098750425543327233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df318727982eb754998c0ec3486ddb68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

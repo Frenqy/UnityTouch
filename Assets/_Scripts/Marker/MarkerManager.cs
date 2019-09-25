@@ -95,6 +95,7 @@ public class MarkerManager : MonoBehaviour
         {
             //if (!ids.Contains(i)) markers[i].gameObject.SetActive(false);
             //else markers[i].gameObject.SetActive(true);
+            if (!markers[i].isInit) continue;
 
             markers[i].gameObject.SetActive(ids.Contains(i));
         }

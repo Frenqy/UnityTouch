@@ -16,10 +16,12 @@ public class Marker : MonoBehaviour
     [HideInInspector] public GameObject TextPrefab;
     [HideInInspector] public GameObject ImagePrefab;
     [HideInInspector] public GameObject VideoPrefab;
+    [HideInInspector] public bool isInit;
 
 
     private void Start()
     {
+        isInit = false;
         StartCoroutine(Init());
     }
 
@@ -33,9 +35,7 @@ public class Marker : MonoBehaviour
             using (UnityWebRequest webRequest = UnityWebRequest.Get(@"file://" + medias[i].previewPath))
             {
                 webRequest.downloadHandler = new DownloadHandlerTexture();
-                Debug.Log("priview img start");
                 yield return webRequest.SendWebRequest();
-                Debug.Log("preview img end");
                 PreviewImg[medias[i].buttonID].texture = DownloadHandlerTexture.GetContent(webRequest);
             }
 
@@ -77,6 +77,7 @@ public class Marker : MonoBehaviour
 
         //初始化完毕之后关闭本身
         gameObject.SetActive(false);
+        isInit = true;
     }
 
     public IEnumerator InitText(int mediaIndex)

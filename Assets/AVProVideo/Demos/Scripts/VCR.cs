@@ -24,6 +24,9 @@ namespace RenderHeads.Media.AVProVideo.Demos
 	/// </summary>
 	public class VCR : MonoBehaviour 
 	{
+        [HideInInspector] public string[] paths;
+
+
 		public MediaPlayer	_mediaPlayer;
 		public MediaPlayer	_mediaPlayerB;
 		public DisplayUGUI	_mediaDisplay;
@@ -39,9 +42,9 @@ namespace RenderHeads.Media.AVProVideo.Demos
 		public Toggle		_AutoStartToggle;
 		public Toggle		_MuteToggle;
 
-		public MediaPlayer.FileLocation _location = MediaPlayer.FileLocation.RelativeToStreamingAssetsFolder;
-		public string _folder = "AVProVideoDemos/";
-		public string[] _videoFiles = { "BigBuckBunny_720p30.mp4", "SampleSphere.mp4" };
+		[HideInInspector] public MediaPlayer.FileLocation _location = MediaPlayer.FileLocation.AbsolutePathOrURL;
+        //[HideInInspector] public string _folder = "AVProVideoDemos/";
+        //[HideInInspector] public string[] _videoFiles = { "BigBuckBunny_720p30.mp4", "SampleSphere.mp4" };
 
 		private int _VideoIndex = 0;
 		private Image _bufferedSliderImage;
@@ -89,9 +92,11 @@ namespace RenderHeads.Media.AVProVideo.Demos
 
 		public void OnOpenVideoFile()
  		{
-			LoadingPlayer.m_VideoPath = System.IO.Path.Combine(_folder, _videoFiles[_VideoIndex]);
-			_VideoIndex = (_VideoIndex + 1) % (_videoFiles.Length);
-			if (string.IsNullOrEmpty(LoadingPlayer.m_VideoPath))
+            //LoadingPlayer.m_VideoPath = System.IO.Path.Combine(_folder, _videoFiles[_VideoIndex]);
+            LoadingPlayer.m_VideoPath = paths[_VideoIndex];
+            //_VideoIndex = (_VideoIndex + 1) % (_videoFiles.Length);
+            _VideoIndex = (_VideoIndex + 1) % (paths.Length);
+            if (string.IsNullOrEmpty(LoadingPlayer.m_VideoPath))
 			{
 				LoadingPlayer.CloseVideo();
 				_VideoIndex = 0;

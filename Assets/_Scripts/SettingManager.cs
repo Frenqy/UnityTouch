@@ -38,31 +38,6 @@ public static class SettingManager
             Debug.LogError(e.Message);
         }
     }
-
-    //public static void InitTestSetting()
-    //{
-    //    MediaSetting m1 = new MediaSetting() { mediaPath = "1", mediaType = MediaType.None };
-    //    MediaSetting m2 = new MediaSetting() { mediaPath = "2", mediaType = MediaType.Text };
-    //    MediaSetting m3 = new MediaSetting() { mediaPath = "3", mediaType = MediaType.Image };
-    //    MediaSetting m4 = new MediaSetting() { mediaPath = "4", mediaType = MediaType.Video };
-
-    //    MarkerSetting s1 = new MarkerSetting();
-    //    MarkerSetting s2 = new MarkerSetting();
-    //    s1.MarkerID = 0;
-    //    s2.MarkerID = 1;
-    //    s1.medias.Add(m1);
-    //    s1.medias.Add(m2);
-    //    s1.medias.Add(m3);
-    //    s2.medias.Add(m4);
-
-    //    Setting s = new Setting();
-    //    s.markers.Add(s1);
-    //    s.markers.Add(s2);
-
-    //    //SaveSetting(s, @"F:\marker.json");
-    //    //setting = s;
-    //}
-
 }
 
 [System.Serializable]

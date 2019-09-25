@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using RenderHeads.Media.AVProVideo.Demos;
 
 public class Marker : MonoBehaviour
 {
@@ -65,7 +66,7 @@ public class Marker : MonoBehaviour
                     yield return StartCoroutine(InitImage(i));
                     break;
                 case MediaType.Video:
-                    //yield return StartCoroutine(InitVideo(i));
+                    InitVideo(i);
                     break;
                 default:
                     break;
@@ -108,23 +109,19 @@ public class Marker : MonoBehaviour
                 yield return webRequest.SendWebRequest();
                 Texture2D content = DownloadHandlerTexture.GetContent(webRequest);
 
-                GameObject img = Instantiate(ImagePrefab, MediaParent[mediaIndex]);
-                RawImage raw = img.GetComponent<RawImage>();
+                GameObject go = Instantiate(ImagePrefab, MediaParent[mediaIndex]);
+                RawImage raw = go.GetComponent<RawImage>();
                 raw.texture = content;
                 raw.SetNativeSize();
             }
         }
     }
 
-    public IEnumerator InitVideo(int mediaIndex)
+    public void InitVideo(int mediaIndex)
     {
-        //为按钮添加媒体
-        for (int j = 0; j < medias[mediaIndex].mediaPath.Length; j++)
-        {
-            using (UnityWebRequest webRequest = UnityWebRequest.Get(@"file://" + medias[mediaIndex].mediaPath[j]))
-            {
-                yield return 0;
-            }
-        }
+        //为按钮添加视频
+        GameObject go = Instantiate(VideoPrefab, MediaParent[mediaIndex]);
+        VCR vcr = go.GetComponentInChildren<VCR>();
+        vcr.paths = medias[mediaIndex].mediaPath;
     }
 }

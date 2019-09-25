@@ -1142,7 +1142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Main Camera
-  basicEditor: 1
+  basicEditor: 0
   advancedProps: 0
   hitProps: 0
   hit3DObjects: 0
@@ -1151,7 +1151,7 @@ MonoBehaviour:
   hitScreenSpaceUI: 1
   layerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
   useHitFilters: 0
 --- !u!1 &1077509640
 GameObject:

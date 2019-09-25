@@ -1,15 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using TouchScript;
 using TouchScript.Gestures;
-using System;
+using UnityEngine;
 
-/// <summary>
-/// 为手势操作的物体设置层级结构->置于其它图片上方
-/// </summary>
-public class AlwaysTop : MonoBehaviour
+public class AlwaysTop_Video : MonoBehaviour
 {
     private void Start()
     {
@@ -19,13 +14,13 @@ public class AlwaysTop : MonoBehaviour
 
     private void OnEnable()
     {
-        transform.SetAsLastSibling();
         transform.parent.SetAsLastSibling();
+        transform.parent.parent.SetAsLastSibling();
     }
 
     private void pressedHandler(object sender, EventArgs e)
     {
-        transform.SetAsLastSibling();
         transform.parent.SetAsLastSibling();
+        transform.parent.parent.SetAsLastSibling();
     }
 }

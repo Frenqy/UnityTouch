@@ -15,7 +15,7 @@ public class MarkerManager : MonoBehaviour
     public GameObject ImagePrefab;
     public GameObject VideoPrefab;
 
-    public Transform UIParent;
+    public RectTransform UIParent;
 
     private List<Marker> markers = new List<Marker>();
 
@@ -89,15 +89,23 @@ public class MarkerManager : MonoBehaviour
         for (int i = 0; i < triangels.Count; i++)
         {
             ids.Add(triangels[i].ID);
+
+            Vector2 pos;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(UIParent, triangels[i].Center, null, out pos);
+            markers[triangels[i].ID].GetComponent<RectTransform>().anchoredPosition = pos;
+            markers[triangels[i].ID].GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, triangels[i].Rotate);
         }
 
         for (int i = 0; i < markers.Count; i++)
         {
-            //if (!ids.Contains(i)) markers[i].gameObject.SetActive(false);
-            //else markers[i].gameObject.SetActive(true);
             if (!markers[i].isInit) continue;
 
             markers[i].gameObject.SetActive(ids.Contains(i));
+            //if (ids.Contains(i))
+            //{
+            //    markers[i].gameObject.SetActive(true);
+            //}
         }
+
     }
 }

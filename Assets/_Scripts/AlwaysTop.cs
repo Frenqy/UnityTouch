@@ -15,7 +15,10 @@ public class AlwaysTop : MonoBehaviour
     {
         var pressGesture = GetComponent<PressGesture>();
         if (pressGesture != null) pressGesture.Pressed += pressedHandler;
+    }
 
+    private void OnEnable()
+    {
         transform.SetAsLastSibling();
         transform.parent.SetAsLastSibling();
     }

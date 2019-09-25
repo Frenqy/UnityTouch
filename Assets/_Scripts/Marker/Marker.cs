@@ -33,7 +33,9 @@ public class Marker : MonoBehaviour
             using (UnityWebRequest webRequest = UnityWebRequest.Get(@"file://" + medias[i].previewPath))
             {
                 webRequest.downloadHandler = new DownloadHandlerTexture();
+                Debug.Log("priview img start");
                 yield return webRequest.SendWebRequest();
+                Debug.Log("preview img end");
                 PreviewImg[medias[i].buttonID].texture = DownloadHandlerTexture.GetContent(webRequest);
             }
 
@@ -75,11 +77,6 @@ public class Marker : MonoBehaviour
 
         //初始化完毕之后关闭本身
         gameObject.SetActive(false);
-    }
-
-    private void SetMediaActive(int index)
-    {
-        MediaParent[index].gameObject.SetActive(!MediaParent[index].gameObject.activeSelf);
     }
 
     public IEnumerator InitText(int mediaIndex)

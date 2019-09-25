@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using System.Windows.Forms;
 
 public class MarkerManager : MonoBehaviour
 {
@@ -17,14 +19,41 @@ public class MarkerManager : MonoBehaviour
 
     private List<Marker> markers = new List<Marker>();
 
+    private void OnEnable()
+    {
+        TouchInput.MarkerUpdated += ShowMarker;
+    }
+
+    private void OnDisable()
+    {
+        TouchInput.MarkerUpdated -= ShowMarker;
+    }
+
     private void Start()
     {
-        Init(@"E:\openFramework\SettingTest\marker.json");
+        GetJson();
+
+        //Init(@"E:\openFramework\SettingTest\marker.json");
 
         //Setting s = SettingManager.setting;
         //string[] paths = { @"E:\openFramework\SettingTest\1.txt", "" };
         //s.markers[0].medias[0].mediaPath = paths;
         //SettingManager.SaveSetting(s, @"E:\openFramework\SettingTest\new.json");
+    }
+
+    /// <summary>
+    /// 从windows资源管理器中选择json文件
+    /// </summary>
+    private void GetJson()
+    {
+        OpenFileDialog dialog = new OpenFileDialog();
+        dialog.InitialDirectory = UnityEngine.Application.dataPath;
+        dialog.Filter = "Json files (*.json)|*.json|All files (*.*)|*.*";
+        if (dialog.ShowDialog()==DialogResult.OK)
+        {
+            //Debug.Log(dialog.FileName);
+            Init(dialog.FileName);
+        }
     }
 
     public void Init(string jsonPath)
@@ -51,6 +80,23 @@ public class MarkerManager : MonoBehaviour
             markers[id].VideoPrefab = VideoPrefab;
 
             markers[id].gameObject.SetActive(true);
+        }
+    }
+
+    public void ShowMarker(List<Triangel> triangels)
+    {
+        List<int> ids = new List<int>();
+        for (int i = 0; i < triangels.Count; i++)
+        {
+            ids.Add(triangels[i].ID);
+        }
+
+        for (int i = 0; i < markers.Count; i++)
+        {
+            //if (!ids.Contains(i)) markers[i].gameObject.SetActive(false);
+            //else markers[i].gameObject.SetActive(true);
+
+            markers[i].gameObject.SetActive(ids.Contains(i));
         }
     }
 }

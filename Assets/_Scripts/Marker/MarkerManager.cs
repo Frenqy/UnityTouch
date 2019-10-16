@@ -39,23 +39,26 @@ public class MarkerManager : MonoBehaviour
     /// </summary>
     private void GetJson()
     {
-        OpenFileDlg pth = new OpenFileDlg();
-        pth.structSize = Marshal.SizeOf(pth);
-        pth.filter = "Json文件(*.json)\0*.json";
-        pth.file = new string(new char[256]);
-        pth.maxFile = pth.file.Length;
-        pth.fileTitle = new string(new char[64]);
-        pth.maxFileTitle = pth.fileTitle.Length;
-        pth.initialDir = Application.streamingAssetsPath.Replace('/', '\\');
-        pth.title = "选择配置文件Json";
-        //pth.defExt = "json";
-        pth.flags = 0x00080000 | 0x00001000 | 0x00000800 | 0x00000200 | 0x00000008;
-        if (OpenFileDialog.GetOpenFileName(pth))
-        {
-            string filepath = pth.file;
-            Debug.Log(filepath);
-            Init(filepath);
-        }
+        //OpenFileDlg pth = new OpenFileDlg();
+        //pth.structSize = Marshal.SizeOf(pth);
+        //pth.filter = "Json文件(*.json)\0*.json";
+        //pth.file = new string(new char[256]);
+        //pth.maxFile = pth.file.Length;
+        //pth.fileTitle = new string(new char[64]);
+        //pth.maxFileTitle = pth.fileTitle.Length;
+        //pth.initialDir = Application.streamingAssetsPath.Replace('/', '\\');
+        //pth.title = "选择配置文件Json";
+        ////pth.defExt = "json";
+        //pth.flags = 0x00080000 | 0x00001000 | 0x00000800 | 0x00000200 | 0x00000008;
+        //if (OpenFileDialog.GetOpenFileName(pth))
+        //{
+        //    string filepath = pth.file;
+        //    Debug.Log(filepath);
+        //    Init(filepath);
+        //}
+        string path = OpenFileDialog.OpenFile("json");
+        Debug.Log(path);
+        Init(path);
     }
 
     public void Init(string jsonPath)
@@ -75,7 +78,7 @@ public class MarkerManager : MonoBehaviour
         for (int i = 0; i < SettingManager.setting.markers.Count; i++)
         {
             int id = SettingManager.setting.markers[i].MarkerID;
-            markers[id].medias = SettingManager.setting.markers[i].medias;
+            markers[id].buttonSettings = SettingManager.setting.markers[i].mediaSetting;
 
             markers[id].TextPrefab = TextPrefab;
             markers[id].ImagePrefab = ImagePrefab;

@@ -40,29 +40,72 @@ public static class SettingManager
     }
 }
 
-[System.Serializable]
-public class Setting
+/// <summary>
+/// 管理完整的json配置文件
+/// </summary>
+[System.Serializable] public class Setting
 {
     public List<MarkerSetting> markers = new List<MarkerSetting>();
 }
 
-[System.Serializable]
-public class MarkerSetting
+/// <summary>
+/// 保存一个marker的配置
+/// </summary>
+[System.Serializable] public class MarkerSetting
 {
     public int MarkerID;
-    public List<MediaSetting> medias = new List<MediaSetting>();
+    public List<ButtonSetting> mediaSetting = new List<ButtonSetting>();
 }
 
-[System.Serializable]
-public class MediaSetting
+/// <summary>
+/// 保存marker上某一个button的配置
+/// </summary>
+[System.Serializable] public class ButtonSetting
 {
     public int buttonID;
-    public MediaType mediaType;
     public string previewPath;
-    public string[] mediaPath;
+    public List<Media> mediaList = new List<Media>();
+}
+
+/// <summary>
+/// 保存button上某一个Media的配置
+/// </summary>
+[System.Serializable] public class Media
+{
+    /// <summary>
+    /// 媒体类型
+    /// </summary>
+    public MediaType mediaType;
+
+    /// <summary>
+    /// 媒体路径或内容（仅限文字）
+    /// </summary>
+    public string mediaContent;
+
+    /// <summary>
+    /// 默认摆放位置
+    /// </summary>
+    public Vector2 pos;
+
+    /// <summary>
+    /// 默认缩放
+    /// </summary>
+    public Vector2 scale;
+
+    /// <summary>
+    /// 默认旋转角度
+    /// </summary>
+    public Quaternion rotate;
 }
 
 public enum MediaType
 {
-    None, Text, Image, Video
+    None,
+    TextFile,   //从文件读取的文本
+    TextContent,//直接编辑的文本
+    Image,
+    Video,
+    Voice,
+    ImageText,//图文
+    ImageVoice,//图声
 }

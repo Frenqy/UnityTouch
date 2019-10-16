@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 
 public class MarkerManager : MonoBehaviour
 {
@@ -32,13 +32,6 @@ public class MarkerManager : MonoBehaviour
     private void Start()
     {
         GetJson();
-
-        //Init(@"E:\openFramework\SettingTest\marker.json");
-
-        //Setting s = SettingManager.setting;
-        //string[] paths = { @"E:\openFramework\SettingTest\1.txt", "" };
-        //s.markers[0].medias[0].mediaPath = paths;
-        //SettingManager.SaveSetting(s, @"E:\openFramework\SettingTest\new.json");
     }
 
     /// <summary>
@@ -46,13 +39,22 @@ public class MarkerManager : MonoBehaviour
     /// </summary>
     private void GetJson()
     {
-        OpenFileDialog dialog = new OpenFileDialog();
-        dialog.InitialDirectory = UnityEngine.Application.dataPath;
-        dialog.Filter = "Json files (*.json)|*.json|All files (*.*)|*.*";
-        if (dialog.ShowDialog()==DialogResult.OK)
+        OpenFileDlg pth = new OpenFileDlg();
+        pth.structSize = Marshal.SizeOf(pth);
+        pth.filter = "Json文件(*.json)\0*.json";
+        pth.file = new string(new char[256]);
+        pth.maxFile = pth.file.Length;
+        pth.fileTitle = new string(new char[64]);
+        pth.maxFileTitle = pth.fileTitle.Length;
+        pth.initialDir = Application.streamingAssetsPath.Replace('/', '\\');
+        pth.title = "选择配置文件Json";
+        //pth.defExt = "json";
+        pth.flags = 0x00080000 | 0x00001000 | 0x00000800 | 0x00000200 | 0x00000008;
+        if (OpenFileDialog.GetOpenFileName(pth))
         {
-            //Debug.Log(dialog.FileName);
-            Init(dialog.FileName);
+            string filepath = pth.file;
+            Debug.Log(filepath);
+            Init(filepath);
         }
     }
 
@@ -98,13 +100,11 @@ public class MarkerManager : MonoBehaviour
 
         for (int i = 0; i < markers.Count; i++)
         {
+            //保护marker的初始化状态，确保资源正确加载进入Unity
             if (!markers[i].isInit) continue;
 
+            //根据识别出的三角形id表，设置marker的活动状态
             markers[i].gameObject.SetActive(ids.Contains(i));
-            //if (ids.Contains(i))
-            //{
-            //    markers[i].gameObject.SetActive(true);
-            //}
         }
 
     }

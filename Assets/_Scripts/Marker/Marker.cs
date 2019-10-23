@@ -27,7 +27,6 @@ public class Marker : MonoBehaviour
 
     public IEnumerator Init()
     {
-       
         //遍历当前marker的Media列表
         for (int i = 0; i < medias.Count; i++)
         {

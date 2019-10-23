@@ -28,7 +28,7 @@ public class TouchInput : MonoBehaviour
     /// </summary>
     private Dictionary<Vector2, int> idMap = new Dictionary<Vector2, int>();
 
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         if (TouchManager.Instance != null)
         {
@@ -36,7 +36,7 @@ public class TouchInput : MonoBehaviour
         }
     }
 
-    private void OnDisable()
+    public virtual void OnDisable()
     {
         if (TouchManager.Instance != null)
         {
@@ -81,7 +81,8 @@ public class TouchInput : MonoBehaviour
         //获取当前还存在的触摸点的id
         //List<int> ids = new List<int>();
         Dictionary<int, Vector2> ids = new Dictionary<int, Vector2>();
-        
+
+        Debug.LogError(e.Pointers.Count);
 
         for (int i = 0; i < e.Pointers.Count; i++)
         {
@@ -191,6 +192,7 @@ public class TouchInput : MonoBehaviour
                         points[i].Paired = true;
                         points[j].Paired = true;
                         pairNum++;
+                        Debug.LogError("将点进行配对");
                     }
                 }
             }

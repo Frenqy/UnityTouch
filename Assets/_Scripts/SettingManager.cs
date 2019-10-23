@@ -54,7 +54,7 @@ public static class SettingManager
 [System.Serializable] public class MarkerSetting
 {
     public int MarkerID;
-    public List<ButtonSetting> mediaSetting = new List<ButtonSetting>();
+    public List<ButtonSetting> buttonSetting = new List<ButtonSetting>();
 }
 
 /// <summary>

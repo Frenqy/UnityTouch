@@ -36,16 +36,25 @@ public class OpenFileDialog
     [DllImport("Comdlg32.dll", SetLastError = true, ThrowOnUnmappableChar = true, CharSet = CharSet.Auto)]
     public static extern bool GetOpenFileName([In, Out] OpenFileDlg ofd);
 
+    [DllImport("Comdlg32.dll", SetLastError = true, ThrowOnUnmappableChar = true, CharSet = CharSet.Auto)]
+    public static extern bool GetSaveFileName([In, Out] OpenFileDlg ofn); 
+
+
     public static bool GetOFN([In, Out] OpenFileDlg ofn)
     {
         return GetOpenFileName(ofn);//执行打开文件的操作
+    }
+
+    public static bool SaveOFN([In, Out] OpenFileDlg ofn)
+    {
+        return GetSaveFileName(ofn);
     }
 
     public static string OpenFile(string type)
     {
         OpenFileDlg pth = new OpenFileDlg();
         pth.structSize = Marshal.SizeOf(pth);
-        pth.filter = $"{type}文件(*." + type + "\0*." + type;
+        pth.filter = $"{type}文件(*." + type + ")\0*." + type;
         pth.file = new string(new char[256]);
         pth.maxFile = pth.file.Length;
         pth.fileTitle = new string(new char[64]);
@@ -57,6 +66,25 @@ public class OpenFileDialog
         {
             string filepath = pth.file;
             return filepath;
+        }
+        else return null;
+    }
+
+    public static string SaveFile(string type)
+    {
+        OpenFileDlg pth = new OpenFileDlg();
+        pth.structSize = Marshal.SizeOf(pth);
+        pth.filter = $"{type}文件(*." + type + ")\0*." + type;
+        pth.file = new string(new char[256]);
+        pth.maxFile = pth.file.Length;
+        pth.fileTitle = new string(new char[64]);
+        pth.maxFileTitle = pth.fileTitle.Length;
+        pth.initialDir = Application.streamingAssetsPath.Replace('/', '\\');
+        pth.title = "选择文件";
+        pth.flags = 0x00080000 | 0x00001000 | 0x00000800 | 0x00000200 | 0x00000008;
+        if (GetSaveFileName(pth))
+        {
+            return pth.file + "." + type;
         }
         else return null;
     }

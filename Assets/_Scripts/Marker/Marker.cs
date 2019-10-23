@@ -53,7 +53,7 @@ public class Marker : MonoBehaviour
                 switch (buttonSettings[i].mediaList[j].mediaType)
                 {
                     case MediaType.TextFile:
-                        yield return StartCoroutine(InitText(i, j));
+                        yield return StartCoroutine(InitTextFile(i, j));
                         break;
                     case MediaType.Image:
                         yield return StartCoroutine(InitImage(i, j));
@@ -73,7 +73,7 @@ public class Marker : MonoBehaviour
         isInit = true;
     }
 
-    public IEnumerator InitText(int buttonSettingIndex, int mediaIndex)
+    public IEnumerator InitTextFile(int buttonSettingIndex, int mediaIndex)
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(@"file://" + buttonSettings[buttonSettingIndex].mediaList[mediaIndex].mediaContent))
         {

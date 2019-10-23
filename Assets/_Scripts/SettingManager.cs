@@ -2,39 +2,34 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using System.IO.Compression;
 
 public static class SettingManager
 {
     public static Setting setting = null;
 
-    public static void LoadSetting(string path)
+    public static void LoadSetting(string filepath)
     {
         try
         {
-            using (StreamReader reader = new StreamReader(path, System.Text.Encoding.UTF8))
+            using (StreamReader reader = new StreamReader(filepath, System.Text.Encoding.UTF8))
             {
                 string json = reader.ReadToEnd();
                 setting = JsonUtility.FromJson<Setting>(json);
             }
 
-            //计算路径
-            string[] splits = path.Split(new string[] { "\\" },System.StringSplitOptions.None);
-            string prefix = string.Empty;
-            for (int i = 0; i < splits.Length-1; i++)
-            {
-                prefix += splits[i];
-                prefix += "\\";
-            }
+            string path, file;
+            SplitFilePath(filepath, new string[] { "\\" }, out path, out file);
 
             //路径replace
             for (int i = 0; i < setting.markers.Count; i++)
             {
                 for (int j = 0; j < setting.markers[i].buttonSetting.Count; j++)
                 {
-                    setting.markers[i].buttonSetting[j].previewPath = setting.markers[i].buttonSetting[j].previewPath.Replace("$PathPrefix$", prefix);
+                    setting.markers[i].buttonSetting[j].previewPath = setting.markers[i].buttonSetting[j].previewPath.Replace("$PathPrefix$", path);
                     for (int k = 0; k < setting.markers[i].buttonSetting[j].mediaList.Count; k++)
                     {
-                        setting.markers[i].buttonSetting[j].mediaList[k].mediaContent = setting.markers[i].buttonSetting[j].mediaList[k].mediaContent.Replace("$PathPrefix$", prefix);
+                        setting.markers[i].buttonSetting[j].mediaList[k].mediaContent = setting.markers[i].buttonSetting[j].mediaList[k].mediaContent.Replace("$PathPrefix$", path);
                     }
                 }
             }
@@ -59,6 +54,29 @@ public static class SettingManager
         {
             Debug.LogError(e.Message);
         }
+    }
+
+    /// <summary>
+    /// 将完整的文件路径切割成 路径 + 文件名
+    /// </summary>
+    /// <param name="filepath">完整文件路径</param>
+    /// <param name="seperator">路径分隔符（在json中通常为\\）</param>
+    /// <param name="path">存放返回的路径</param>
+    /// <param name="file">存放返回的文件名</param>
+    public static void SplitFilePath(string filepath, string[] seperator, out string path, out string file)
+    {
+        //计算路径
+        string[] splits = filepath.Split(seperator, System.StringSplitOptions.None);
+
+        path = string.Empty;
+        for (int i = 0; i < splits.Length - 1; i++)
+        {
+            path += splits[i];
+            path += "\\";
+        }
+
+        file = splits[splits.Length - 1];
+
     }
 }
 

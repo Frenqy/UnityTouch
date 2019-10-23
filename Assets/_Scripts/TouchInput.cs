@@ -16,7 +16,7 @@ public class TouchInput : MonoBehaviour
     /// <summary>
     /// 储存当前识别到的三角形
     /// </summary>
-    public List<Triangel> Triangels { get; private set; } = new List<Triangel>();
+    private List<Triangel> Triangels = new List<Triangel>();
 
     /// <summary>
     /// 储存当前未锁定的触摸点

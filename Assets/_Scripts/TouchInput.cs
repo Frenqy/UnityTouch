@@ -82,7 +82,7 @@ public class TouchInput : MonoBehaviour
         //List<int> ids = new List<int>();
         Dictionary<int, Vector2> ids = new Dictionary<int, Vector2>();
 
-        Debug.LogError(e.Pointers.Count);
+        //Debug.LogError(e.Pointers.Count);
 
         for (int i = 0; i < e.Pointers.Count; i++)
         {
@@ -192,7 +192,7 @@ public class TouchInput : MonoBehaviour
                         points[i].Paired = true;
                         points[j].Paired = true;
                         pairNum++;
-                        Debug.LogError("将点进行配对");
+                        //Debug.LogError("将点进行配对");
                     }
                 }
             }

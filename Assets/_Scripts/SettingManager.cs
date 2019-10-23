@@ -8,7 +8,9 @@ public static class SettingManager
 {
     public static Setting setting = null;
 
-    public static void LoadSetting(string filepath)
+    public static string tempPath;
+
+    private static void LoadSetting(string filepath)
     {
         try
         {
@@ -34,7 +36,6 @@ public static class SettingManager
                 }
             }
 
-            //ZipSetting(setting);
         }
         catch (System.Exception e)
         {
@@ -101,6 +102,16 @@ public static class SettingManager
         string[] files = fileList.Distinct().ToArray();
 
         ZipUtility.Zip(files, path);
+        File.Delete(jsonPath);
+    }
+
+    public static void LoadSettingPack()
+    {
+        string packPath = FileCommon.OpenFile("vkxr");
+        tempPath = Application.streamingAssetsPath.Replace('/', '\\') + "\\tmp";
+        ZipUtility.UnzipFile(packPath, tempPath);
+
+        LoadSetting(tempPath + "\\setting.json");
     }
 }
 

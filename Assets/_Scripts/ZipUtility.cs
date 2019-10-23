@@ -11,6 +11,8 @@ using System.IO;
 using System.Collections;
 using UnityEngine;
 using ICSharpCode.SharpZipLib.Zip;
+using System;
+using System.Text;
 
 public static class ZipUtility
 {
@@ -216,7 +218,7 @@ public static class ZipUtility
                 if ((null != _unzipCallback) && !_unzipCallback.OnPreUnzip(entry))
                     continue;   // 过滤
 
-                string filePathName = Path.Combine(_outputPath, entry.Name);
+                string filePathName = Combine(_outputPath, entry.Name);
 
                 // 创建文件目录
                 if (entry.IsDirectory)
@@ -333,7 +335,7 @@ public static class ZipUtility
         ZipEntry entry = null;
         try
         {
-            string entryName = Path.Combine(_parentRelPath, Path.GetFileName(_path) + '/');
+            string entryName = Combine(_parentRelPath, Path.GetFileName(_path) + '/');
             entry = new ZipEntry(entryName);
             entry.DateTime = System.DateTime.Now;
             entry.Size = 0;
@@ -346,7 +348,7 @@ public static class ZipUtility
 
             string[] files = Directory.GetFiles(_path);
             for (int index = 0; index < files.Length; ++index)
-                ZipFile(files[index], Path.Combine(_parentRelPath, Path.GetFileName(_path)), _zipOutputStream, _zipCallback);
+                ZipFile(files[index], Combine(_parentRelPath, Path.GetFileName(_path)), _zipOutputStream, _zipCallback);
         }
         catch (System.Exception _e)
         {
@@ -357,7 +359,7 @@ public static class ZipUtility
         string[] directories = Directory.GetDirectories(_path);
         for (int index = 0; index < directories.Length; ++index)
         {
-            if (!ZipDirectory(directories[index], Path.Combine(_parentRelPath, Path.GetFileName(_path)), _zipOutputStream, _zipCallback))
+            if (!ZipDirectory(directories[index], Combine(_parentRelPath, Path.GetFileName(_path)), _zipOutputStream, _zipCallback))
                 return false;
         }
 
@@ -365,6 +367,56 @@ public static class ZipUtility
             _zipCallback.OnPostZip(entry);
 
         return true;
+    }
+
+    private static string Combine(params string[] paths)
+    {
+        if (paths.Length == 0)
+        {
+            throw new ArgumentException("please input path");
+        }
+        else
+        {
+            StringBuilder builder = new StringBuilder();
+            string spliter = "\\";
+            string firstPath = paths[0];
+
+            if (firstPath.StartsWith("HTTP", StringComparison.OrdinalIgnoreCase))
+            {
+                spliter = "/";
+            }
+
+            if (!firstPath.EndsWith(spliter))
+            {
+                firstPath = firstPath + spliter;
+            }
+            builder.Append(firstPath);
+
+            for (int i = 1; i < paths.Length; i++)
+            {
+                string nextPath = paths[i];
+                if (nextPath.StartsWith("/") || nextPath.StartsWith("\\"))
+                {
+                    nextPath = nextPath.Substring(1);
+                }
+
+                if (i != paths.Length - 1)//not the last one
+                {
+                    if (nextPath.EndsWith("/") || nextPath.EndsWith("\\"))
+                    {
+                        nextPath = nextPath.Substring(0, nextPath.Length - 1) + spliter;
+                    }
+                    else
+                    {
+                        nextPath = nextPath + spliter;
+                    }
+                }
+
+                builder.Append(nextPath);
+            }
+
+            return builder.ToString();
+        }
     }
 }
 

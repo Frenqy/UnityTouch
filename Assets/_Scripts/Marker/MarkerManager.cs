@@ -33,16 +33,16 @@ public class MarkerManager : MonoBehaviour
     /// </summary>
     private void GetJson()
     {
-
-        string path = FileCommon.OpenFile("json");
-        Debug.Log(path);
-        Init(path);
+        SettingManager.LoadSettingPack();
+        //string path = FileCommon.OpenFile("json");
+        //Debug.Log(path);
+        //Init(path);
+        Init();
     }
 
-    public void Init(string jsonPath)
+    public void Init()
     {
-        //读取设置
-        SettingManager.LoadSetting(jsonPath);
+
 
         //提前生成marker（按Degrees数量而不是marker中配置数量生成，这样在管理状态的时候会更方便）
         for (int i = 0; i < Triangel.Degrees.Length; i++)

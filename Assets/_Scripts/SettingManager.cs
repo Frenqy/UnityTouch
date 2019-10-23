@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
-using System.IO.Compression;
 
 public static class SettingManager
 {
@@ -19,7 +19,7 @@ public static class SettingManager
             }
 
             string path, file;
-            SplitFilePath(filepath, new string[] { "\\" }, out path, out file);
+            FileCommon.SplitFilePath(filepath, new string[] { "\\" }, out path, out file);
 
             //路径replace
             for (int i = 0; i < setting.markers.Count; i++)
@@ -33,6 +33,8 @@ public static class SettingManager
                     }
                 }
             }
+
+            //ZipSetting(setting);
         }
         catch (System.Exception e)
         {
@@ -40,7 +42,12 @@ public static class SettingManager
         }
     }
 
-    public static void SaveSetting(Setting setting, string path)
+    /// <summary>
+    /// 将Setting转换成Json文件
+    /// </summary>
+    /// <param name="setting"></param>
+    /// <param name="path"></param>
+    private static void SaveSetting(Setting setting, string path)
     {
         try
         {
@@ -57,26 +64,43 @@ public static class SettingManager
     }
 
     /// <summary>
-    /// 将完整的文件路径切割成 路径 + 文件名
+    /// 将Setting以及对应的资源文件打包
     /// </summary>
-    /// <param name="filepath">完整文件路径</param>
-    /// <param name="seperator">路径分隔符（在json中通常为\\）</param>
-    /// <param name="path">存放返回的路径</param>
-    /// <param name="file">存放返回的文件名</param>
-    public static void SplitFilePath(string filepath, string[] seperator, out string path, out string file)
+    /// <param name="setting"></param>
+    public static void PackSetting(Setting setting)
     {
-        //计算路径
-        string[] splits = filepath.Split(seperator, System.StringSplitOptions.None);
+        string path = FileCommon.SaveFile("vkxr");
+        List<string> fileList = new List<string>();
 
-        path = string.Empty;
-        for (int i = 0; i < splits.Length - 1; i++)
+        //修改Setting并生成json
+        string outpath, outfile;
+        for (int i = 0; i < setting.markers.Count; i++)
         {
-            path += splits[i];
-            path += "\\";
+            for (int j = 0; j < setting.markers[i].buttonSetting.Count; j++)
+            {
+                fileList.Add(setting.markers[i].buttonSetting[j].previewPath);
+                FileCommon.SplitFilePath(setting.markers[i].buttonSetting[j].previewPath, new string[] { "\\" }, out outpath, out outfile);
+                setting.markers[i].buttonSetting[j].previewPath = "$PathPrefix$"+ outfile;
+
+                for (int k = 0; k < setting.markers[i].buttonSetting[j].mediaList.Count; k++)
+                {
+                    fileList.Add(setting.markers[i].buttonSetting[j].mediaList[k].mediaContent);
+                    int length = FileCommon.SplitFilePath(setting.markers[i].buttonSetting[j].mediaList[k].mediaContent, new string[] { "\\" }, out outpath, out outfile);
+                    if (length != 1) //判断mediaContent内存放的是路径还是文本内容
+                    {
+                        setting.markers[i].buttonSetting[j].mediaList[k].mediaContent = "$PathPrefix$" + outfile;
+                    }
+                }
+            }
         }
+        FileCommon.SplitFilePath(path, new string[] { "\\" }, out outpath, out outfile);
+        string jsonPath = outpath + "setting.json";
+        SaveSetting(setting, jsonPath);
+        fileList.Add(jsonPath);
 
-        file = splits[splits.Length - 1];
+        string[] files = fileList.Distinct().ToArray();
 
+        ZipUtility.Zip(files, path);
     }
 }
 

@@ -34,7 +34,7 @@ public class MarkerManager : MonoBehaviour
     private void GetJson()
     {
 
-        string path = OpenFileDialog.OpenFile("json");
+        string path = FileCommon.OpenFile("json");
         Debug.Log(path);
         Init(path);
     }

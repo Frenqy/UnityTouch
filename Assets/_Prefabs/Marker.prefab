@@ -1581,10 +1581,11 @@ MonoBehaviour:
   - {fileID: 5830797755028170389}
   - {fileID: 5830797754235839234}
   - {fileID: 5830797754026269187}
-  medias: []
+  buttonSettings: []
   TextPrefab: {fileID: 0}
   ImagePrefab: {fileID: 0}
   VideoPrefab: {fileID: 0}
+  isInit: 0
 --- !u!1 &5955651280338917364
 GameObject:
   m_ObjectHideFlags: 0

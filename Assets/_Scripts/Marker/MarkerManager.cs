@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 //using System.Windows.Forms;
 
 public class MarkerManager : MonoBehaviour
@@ -33,16 +34,16 @@ public class MarkerManager : MonoBehaviour
     /// </summary>
     private void GetJson()
     {
-
-        string path = OpenFileDialog.OpenFile("json");
-        Debug.Log(path);
-        Init(path);
+        SettingManager.LoadSettingPack();
+        //string path = FileCommon.OpenFile("json");
+        //Debug.Log(path);
+        //Init(path);
+        Init();
     }
 
-    public void Init(string jsonPath)
+    public void Init()
     {
-        //读取设置
-        SettingManager.LoadSetting(jsonPath);
+
 
         //提前生成marker（按Degrees数量而不是marker中配置数量生成，这样在管理状态的时候会更方便）
         for (int i = 0; i < Triangel.Degrees.Length; i++)
@@ -88,5 +89,10 @@ public class MarkerManager : MonoBehaviour
             markers[i].gameObject.SetActive(ids.Contains(i));
         }
 
+    }
+
+    private void OnDestroy()
+    {
+        Directory.Delete(SettingManager.tempPath, true);
     }
 }

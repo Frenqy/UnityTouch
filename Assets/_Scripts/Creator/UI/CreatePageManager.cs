@@ -18,6 +18,8 @@ namespace VIC.Creator.UI
     {
         [SerializeField]
         private Transform placeArea;
+        [SerializeField]
+        private GameObject mediaList;
         private bool isEditing = false;
 
         public override void OnEnable()
@@ -66,8 +68,6 @@ namespace VIC.Creator.UI
             }
         }
 
-
-
         /// <summary>
         /// 检查是否正确放置Marker
         /// </summary>
@@ -78,11 +78,13 @@ namespace VIC.Creator.UI
                 // 设置虚拟Marker
                 // 开启媒体列表
                 SetupVirtualMarker(0);
-                OpenMediaList();
+                SetMediaList(true);
             }
             else
             {
                 // 放置区域闪烁提示
+                Debug.LogError("请将Marker放置到指定位置");
+                SetMediaList(false);
             }
         }
 
@@ -124,9 +126,9 @@ namespace VIC.Creator.UI
         /// <summary>
         /// 弹出媒体文件列表
         /// </summary>
-        private void OpenMediaList()
+        private void SetMediaList(bool visible)
         {
-
+            mediaList.SetActive(visible);
         }
     }
 }

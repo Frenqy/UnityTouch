@@ -51232,6 +51232,7 @@ MonoBehaviour:
   - {fileID: 1005430894}
   - {fileID: 522495345}
   placeArea: {fileID: 1416603465}
+  mediaList: {fileID: 1842186381}
 --- !u!114 &1546210275
 MonoBehaviour:
   m_ObjectHideFlags: 0

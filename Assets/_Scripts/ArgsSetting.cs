@@ -9,7 +9,7 @@ using UnityEngine.UI;
 /// </summary>
 public class ArgsSetting : MonoBehaviour
 {
-    public static float Distance = 5 * TouchManager.Instance.DotsPerCentimeter;
+    public static float Distance = 150;
     public static float Tolerance = 10;
 
     public Slider DistanceSlider;

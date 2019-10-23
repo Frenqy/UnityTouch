@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 //using System.Windows.Forms;
 
 public class MarkerManager : MonoBehaviour
@@ -88,5 +89,10 @@ public class MarkerManager : MonoBehaviour
             markers[i].gameObject.SetActive(ids.Contains(i));
         }
 
+    }
+
+    private void OnDestroy()
+    {
+        Directory.Delete(SettingManager.tempPath, true);
     }
 }

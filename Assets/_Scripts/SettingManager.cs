@@ -16,6 +16,28 @@ public static class SettingManager
                 string json = reader.ReadToEnd();
                 setting = JsonUtility.FromJson<Setting>(json);
             }
+
+            //计算路径
+            string[] splits = path.Split(new string[] { "\\" },System.StringSplitOptions.None);
+            string prefix = string.Empty;
+            for (int i = 0; i < splits.Length-1; i++)
+            {
+                prefix += splits[i];
+                prefix += "\\";
+            }
+
+            //路径replace
+            for (int i = 0; i < setting.markers.Count; i++)
+            {
+                for (int j = 0; j < setting.markers[i].buttonSetting.Count; j++)
+                {
+                    setting.markers[i].buttonSetting[j].previewPath = setting.markers[i].buttonSetting[j].previewPath.Replace("$PathPrefix$", prefix);
+                    for (int k = 0; k < setting.markers[i].buttonSetting[j].mediaList.Count; k++)
+                    {
+                        setting.markers[i].buttonSetting[j].mediaList[k].mediaContent = setting.markers[i].buttonSetting[j].mediaList[k].mediaContent.Replace("$PathPrefix$", prefix);
+                    }
+                }
+            }
         }
         catch (System.Exception e)
         {

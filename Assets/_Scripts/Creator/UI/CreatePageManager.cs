@@ -66,6 +66,10 @@ namespace VIC.Creator.UI
                     Debug.ClearDeveloperConsole();
                 }
             }
+            else
+            {
+                Debug.ClearDeveloperConsole();
+            }
         }
 
         /// <summary>
@@ -98,9 +102,9 @@ namespace VIC.Creator.UI
             {
                 //Debug.Log("Marker坐标 " + Triangels[0].Center);
                 // Debug.Log("放置点坐标 " + placeArea.position);
-                if(Triangels[0].Center.x < placeArea.position.x + 100 || Triangels[0].Center.x < placeArea.position.x - 100)
+                if (Triangels[0].Center.x < placeArea.position.x + 100 || Triangels[0].Center.x < placeArea.position.x - 100)
                 {
-                    if(Triangels[0].Center.y < placeArea.position.y + 100 || Triangels[0].Center.y < placeArea.position.y - 100)
+                    if (Triangels[0].Center.y < placeArea.position.y + 100 || Triangels[0].Center.y < placeArea.position.y - 100)
                     {
                         Debug.LogError("Marker在范围内");
                         return true;
@@ -111,7 +115,7 @@ namespace VIC.Creator.UI
                     }
                 }
             }
-            
+
             return false;
         }
 

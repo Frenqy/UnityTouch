@@ -3815,7 +3815,8 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114348352206016790, guid: e6083abf9fe5e6b4090973a15b282249, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e6083abf9fe5e6b4090973a15b282249, type: 3}
 --- !u!224 &90541245 stripped
 RectTransform:
@@ -57424,7 +57425,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1781027062
 RectTransform:
   m_ObjectHideFlags: 0
@@ -57453,7 +57454,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1781027061}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0

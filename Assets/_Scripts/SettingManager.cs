@@ -10,6 +10,8 @@ public static class SettingManager
 
     public static string TempPath { get; private set; }
 
+    private static byte[] KEY = new byte[] { 0, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 0 };
+
     /// <summary>
     /// 将Setting以及对应的资源文件打包
     /// </summary>
@@ -56,7 +58,7 @@ public static class SettingManager
         //打包成zip
         bool packResult = ZipUtility.Zip(files, zipFilePath + ".tmp");
         //对zip进行加密
-        if(packResult) FileCommon.Encrypt(zipFilePath + ".tmp", zipFilePath, new byte[] { 0, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 0 });
+        if(packResult) FileCommon.Encrypt(zipFilePath + ".tmp", zipFilePath, KEY);
         //清理临时文件
         File.Delete(jsonPath);
         File.Delete(zipFilePath + ".tmp");
@@ -74,18 +76,22 @@ public static class SettingManager
         string packPath = FileCommon.OpenFile("vkxr");
 
 #if UNITY_EDITOR
+        //编辑器模式下不操作StreamingAssets文件夹
+        //因为会触发资源导入
         TempPath = @"D:\\tmp";
-        // 创建文件目录
-        if (!Directory.Exists(@"D:\\tmp")) Directory.CreateDirectory( @"D:\\tmp");
-
 #else
         tempPath = Application.streamingAssetsPath.Replace('/', '\\') + "\\tmp";
 #endif
 
-        FileCommon.Decrypt(packPath, TempPath + "\\pack.tmp", new byte[] { 0, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 0 });
-        bool unpackResult = ZipUtility.UnzipFile(TempPath + "\\pack.tmp", TempPath);
-        File.Delete(TempPath + "\\pack.tmp");
+        // 创建文件目录
+        if (!Directory.Exists(TempPath)) Directory.CreateDirectory(TempPath);
 
+        //解密并尝试解压
+        FileCommon.Decrypt(packPath, TempPath + "\\pack.tmp", KEY);
+        bool unpackResult = ZipUtility.UnzipFile(TempPath + "\\pack.tmp", TempPath);
+        //清理临时文件
+        File.Delete(TempPath + "\\pack.tmp");
+        //读取json
         if(unpackResult) LoadSettingFromJson(TempPath + "\\setting.json");
 
         return unpackResult;

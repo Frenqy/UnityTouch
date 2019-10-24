@@ -26,18 +26,7 @@ public class MarkerManager : MonoBehaviour
 
     private void Start()
     {
-        GetJson();
-    }
-
-    /// <summary>
-    /// 从windows资源管理器中选择json文件
-    /// </summary>
-    private void GetJson()
-    {
         SettingManager.LoadSettingPack();
-        //string path = FileCommon.OpenFile("json");
-        //Debug.Log(path);
-        //Init(path);
         Init();
     }
 
@@ -93,6 +82,6 @@ public class MarkerManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        Directory.Delete(SettingManager.tempPath, true);
+        Directory.Delete(SettingManager.TempPath, true);
     }
 }

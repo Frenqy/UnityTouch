@@ -2,6 +2,9 @@
 using System.Runtime.InteropServices;
 using UnityEngine;
 using System.IO.Compression;
+using System.Text;
+using System.IO;
+using System.Security.Cryptography;
 
 [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
 
@@ -112,6 +115,110 @@ public class FileCommon
         file = splits[splits.Length - 1];
 
         return splits.Length;
+    }
+
+    public static string Combine(params string[] paths)
+    {
+        if (paths.Length == 0)
+        {
+            throw new ArgumentException("please input path");
+        }
+        else
+        {
+            StringBuilder builder = new StringBuilder();
+            string spliter = "\\";
+            string firstPath = paths[0];
+
+            if (firstPath.StartsWith("HTTP", StringComparison.OrdinalIgnoreCase))
+            {
+                spliter = "/";
+            }
+
+            if (!firstPath.EndsWith(spliter))
+            {
+                firstPath = firstPath + spliter;
+            }
+            builder.Append(firstPath);
+
+            for (int i = 1; i < paths.Length; i++)
+            {
+                string nextPath = paths[i];
+                if (nextPath.StartsWith("/") || nextPath.StartsWith("\\"))
+                {
+                    nextPath = nextPath.Substring(1);
+                }
+
+                if (i != paths.Length - 1)//not the last one
+                {
+                    if (nextPath.EndsWith("/") || nextPath.EndsWith("\\"))
+                    {
+                        nextPath = nextPath.Substring(0, nextPath.Length - 1) + spliter;
+                    }
+                    else
+                    {
+                        nextPath = nextPath + spliter;
+                    }
+                }
+
+                builder.Append(nextPath);
+            }
+
+            return builder.ToString();
+        }
+    }
+
+    public static void Encrypt(string inFilePath, string outFilePath, byte[] key)
+    {
+        byte[] src;
+
+        //读取文件
+        using (FileStream fs = File.OpenRead(inFilePath))
+        {
+            src = new byte[fs.Length];
+            fs.Read(src, 0, src.Length);
+        }
+
+        //加密操作
+        RijndaelManaged rDel = new RijndaelManaged();
+        rDel.Key = key;
+        rDel.Mode = CipherMode.ECB;
+        rDel.Padding = PaddingMode.PKCS7;
+
+        ICryptoTransform cTransform = rDel.CreateEncryptor();
+        byte[] resultArray = cTransform.TransformFinalBlock(src, 0, src.Length);
+
+        //写入文件
+        using (FileStream fs = File.Create(outFilePath))
+        {
+            fs.Write(resultArray, 0, resultArray.Length);
+        }
+    }
+
+    public static void Decrypt(string inFilePath, string outFilePath, byte[] key)
+    {
+        byte[] src;
+
+        //读取文件
+        using (FileStream fs = File.OpenRead(inFilePath))
+        {
+            src = new byte[fs.Length];
+            fs.Read(src, 0, src.Length);
+        }
+
+        //解密文件
+        RijndaelManaged rDel = new RijndaelManaged();
+        rDel.Key = key;
+        rDel.Mode = CipherMode.ECB;
+        rDel.Padding = PaddingMode.PKCS7;
+
+        ICryptoTransform cTransform = rDel.CreateDecryptor();
+        byte[] resultArray = cTransform.TransformFinalBlock(src, 0, src.Length);
+
+        //写入文件
+        using (FileStream fs = File.Create(outFilePath))
+        {
+            fs.Write(resultArray, 0, resultArray.Length);
+        }
     }
 
 }

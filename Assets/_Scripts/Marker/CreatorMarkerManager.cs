@@ -6,8 +6,9 @@ namespace VIC.Creator.Marker
 {
     /// <summary>
     /// 编辑器端的MarkerManager的做法
-    /// 1.显示三角形列表里的第一个三角形
-    /// 2.
+    /// 1.放置MK，显示读取信息动画
+    /// 2.读取信息动画完成，出现虚拟MK和媒体文件列表
+    /// 3.拿走MK 不影响信息编辑
     /// </summary>
     public class CreatorMarkerManager : MonoBehaviour
     {
@@ -16,13 +17,21 @@ namespace VIC.Creator.Marker
 
         private void OnEnable()
         {
-            TouchInput.MarkerUpdated += ShowCreatorMarker;
+            TouchInput.MarkerUpdated += PrepareMarker;
         }
 
         private void OnDisable()
         {
-            TouchInput.MarkerUpdated -= ShowCreatorMarker;
+            TouchInput.MarkerUpdated -= PrepareMarker;
             isEditing = true;
+
+        }
+
+        /// <summary>
+        /// 加载传入的三角形的素材信息
+        /// </summary>
+        private void LoadMarkerInfo(Triangel triangel)
+        {
 
         }
 
@@ -35,14 +44,26 @@ namespace VIC.Creator.Marker
         /// 如果有内容则进行展示 无则显示空Marker
         /// </summary>
         /// <param name="triangels"></param>
-        public void ShowCreatorMarker(List<Triangel> triangels)
+        public void PrepareMarker(List<Triangel> triangels)
         {
+
+            StartCoroutine(ReadingAnimation(2.0f));
             if (isEditing)
             {
                 virtualMK = Instantiate<GameObject>(virtualMarkerPrefab, containerCanvas);
                 isEditing = false;
             }
 
+        }
+
+        public void HideCreatorMarker(List<Triangel> triangels)
+        {
+
+        }
+
+        IEnumerator ReadingAnimation(float duration)
+        {
+            yield return new WaitForSeconds(duration);
         }
     }
 }

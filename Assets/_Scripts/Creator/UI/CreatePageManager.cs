@@ -20,7 +20,17 @@ namespace VIC.Creator.UI
         private Transform placeArea;
         [SerializeField]
         private GameObject mediaList;
+
+        /// <summary>
+        /// 是否触发Mk进入的事件
+        /// </summary>
+        private bool hasInvokeMkIn = false;
+
+        /// <summary>
+        /// 是否进入编辑状态
+        /// </summary>
         private bool isEditing = false;
+
 
         public override void OnEnable()
         {
@@ -44,16 +54,18 @@ namespace VIC.Creator.UI
         private void OnPressedHandler(object sender, PointerEventArgs e)
         {
             CheckCount();
+            Debug.LogError(Time.time);
         }
 
         /// <summary>
         /// 检查三角形数量
+        /// 时刻检查
         /// </summary>
         private void CheckCount()
         {
-            if (Triangels.Count > 0)
+            if (Triangels.Count > 0 && !isEditing)  // 已经放置了Mk且不在编辑状态
             {
-                // 当前数量大于1
+                // Mk数量大于1
                 if (Triangels.Count > 1)
                 {
                     // TODO Marker放置数量大于1个，提示排除干扰
@@ -77,15 +89,18 @@ namespace VIC.Creator.UI
         /// </summary>
         private void CheckPlaceArea()
         {
-            if (IsPlaceCorrectly() == true)
+            // Mk进入 并且触发了一次事件
+            if (IsMkIn() == true && !hasInvokeMkIn)
             {
                 // 设置虚拟Marker
                 // 开启媒体列表
                 //SetupVirtualMarker(0);
                 MarkerUpdated?.Invoke(Triangels);
                 SetMediaList(true);
+
+                hasInvokeMkIn = true;
             }
-            else
+            else if(IsMkIn()==false)
             {
                 // 放置区域闪烁提示
                 Debug.LogError("请将Marker放置到指定位置");
@@ -94,20 +109,19 @@ namespace VIC.Creator.UI
         }
 
         /// <summary>
-        /// 是否放置在正确位置
+        /// 检查单个Mk状态下 是否放置在正确位置
         /// </summary>
         /// <returns></returns>
-        private bool IsPlaceCorrectly()
+        private bool IsMkIn()
         {
             if (Triangels.Count == 1)
             {
-                //Debug.Log("Marker坐标 " + Triangels[0].Center);
-                // Debug.Log("放置点坐标 " + placeArea.position);
                 if (Triangels[0].Center.x < placeArea.position.x + 100 || Triangels[0].Center.x < placeArea.position.x - 100)
                 {
                     if (Triangels[0].Center.y < placeArea.position.y + 100 || Triangels[0].Center.y < placeArea.position.y - 100)
                     {
                         Debug.LogError("Marker在范围内");
+                        hasInvokeMkIn = true;
                         return true;
                     }
                     else

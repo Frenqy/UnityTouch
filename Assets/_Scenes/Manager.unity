@@ -3589,7 +3589,7 @@ PrefabInstance:
     - target: {fileID: 114348352206016790, guid: e6083abf9fe5e6b4090973a15b282249,
         type: 3}
       propertyPath: m_Transition
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114348352206016790, guid: e6083abf9fe5e6b4090973a15b282249,
         type: 3}
@@ -3619,7 +3619,7 @@ PrefabInstance:
     - target: {fileID: 95378529968253254, guid: e6083abf9fe5e6b4090973a15b282249,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 95378529968253254, guid: e6083abf9fe5e6b4090973a15b282249,
         type: 3}
@@ -50053,7 +50053,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1546210269}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1093d541393c584385752d9a861c3a8, type: 3}
   m_Name: 
@@ -57424,7 +57424,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1781027062
 RectTransform:
   m_ObjectHideFlags: 0
@@ -57453,7 +57453,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1781027061}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0

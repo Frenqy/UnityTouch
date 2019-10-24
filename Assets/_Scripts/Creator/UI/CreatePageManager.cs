@@ -81,7 +81,8 @@ namespace VIC.Creator.UI
             {
                 // 设置虚拟Marker
                 // 开启媒体列表
-                SetupVirtualMarker(0);
+                //SetupVirtualMarker(0);
+                MarkerUpdated?.Invoke(Triangels);
                 SetMediaList(true);
             }
             else

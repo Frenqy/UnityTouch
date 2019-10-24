@@ -82,6 +82,6 @@ public class MarkerManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        Directory.Delete(SettingManager.TempPath, true);
+        if (Directory.Exists(SettingManager.TempPath)) Directory.Delete(SettingManager.TempPath, true);
     }
 }

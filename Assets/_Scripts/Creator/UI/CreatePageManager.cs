@@ -20,6 +20,8 @@ namespace VIC.Creator.UI
         private Transform placeArea;
         [SerializeField]
         private GameObject mediaList;
+        [SerializeField]
+        private Animator readingAnimator;
 
         /// <summary>
         /// 是否触发Mk进入的事件
@@ -27,9 +29,14 @@ namespace VIC.Creator.UI
         private bool hasInvokeMkIn = false;
 
         /// <summary>
+        /// 是否正在读取MK信息
+        /// </summary>
+        private bool isReading = false;
+
+        /// <summary>
         /// 是否进入编辑状态
         /// </summary>
-        private bool isEditing = false;
+        private bool isEnterEdit = false;
 
 
         public override void OnEnable()
@@ -51,10 +58,14 @@ namespace VIC.Creator.UI
 
         }
 
+        /// <summary>
+        /// 有接触时会每帧调用
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnPressedHandler(object sender, PointerEventArgs e)
         {
             CheckCount();
-            Debug.LogError(Time.time);
         }
 
         /// <summary>
@@ -63,7 +74,7 @@ namespace VIC.Creator.UI
         /// </summary>
         private void CheckCount()
         {
-            if (Triangels.Count > 0 && !isEditing)  // 已经放置了Mk且不在编辑状态
+            if (Triangels.Count > 0)  // 已经放置了Mk且不在编辑状态
             {
                 // Mk数量大于1
                 if (Triangels.Count > 1)
@@ -73,7 +84,7 @@ namespace VIC.Creator.UI
                 }
                 else
                 {
-                    // TODO 检查Marker是否正确放置
+                    // MK数量只有一个且不在编辑状态 则检查是否进入指定区域
                     CheckPlaceArea();
                     Debug.ClearDeveloperConsole();
                 }
@@ -89,22 +100,26 @@ namespace VIC.Creator.UI
         /// </summary>
         private void CheckPlaceArea()
         {
-            // Mk进入 并且触发了一次事件
-            if (IsMkIn() == true && !hasInvokeMkIn)
+            if (isEnterEdit) return;
+
+            if (IsMkIn() == true && !isReading) // 
             {
                 // 设置虚拟Marker
                 // 开启媒体列表
                 //SetupVirtualMarker(0);
-                MarkerUpdated?.Invoke(Triangels);
-                SetMediaList(true);
+                //MarkerUpdated?.Invoke(Triangels);
+                //SetMediaList(true);
 
-                hasInvokeMkIn = true;
+                //hasInvokeMkIn = true;
+                // 
+                StartCoroutine(ReadMkInfo());
             }
-            else if(IsMkIn()==false)
+            else if(IsMkIn()==false && isReading)
             {
-                // 放置区域闪烁提示
                 Debug.LogError("请将Marker放置到指定位置");
-                SetMediaList(false);
+                StopAllCoroutines();
+                isReading = false;
+                readingAnimator.Play("Normal");
             }
         }
 
@@ -120,8 +135,6 @@ namespace VIC.Creator.UI
                 {
                     if (Triangels[0].Center.y < placeArea.position.y + 100 || Triangels[0].Center.y < placeArea.position.y - 100)
                     {
-                        Debug.LogError("Marker在范围内");
-                        hasInvokeMkIn = true;
                         return true;
                     }
                     else
@@ -132,6 +145,19 @@ namespace VIC.Creator.UI
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// 读取MK信息 读取完毕进入编辑状态
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator ReadMkInfo()
+        {
+            isReading = true;
+            readingAnimator.Play("Highlighted");
+            yield return new WaitForSeconds(2.0f);
+            isEnterEdit = true;
+
         }
 
         /// <summary>

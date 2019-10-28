@@ -58,6 +58,11 @@ namespace VIC.Creator.UI
 
         }
 
+        public void ExitEditMode()
+        {
+            isEnterEdit = false;
+        }
+
         /// <summary>
         /// 有接触时会每帧调用
         /// </summary>
@@ -114,7 +119,7 @@ namespace VIC.Creator.UI
                 // 
                 StartCoroutine(ReadMkInfo());
             }
-            else if(IsMkIn()==false && isReading)
+            else if(IsMkIn()==false)
             {
                 Debug.LogError("请将Marker放置到指定位置");
                 StopAllCoroutines();
@@ -146,6 +151,7 @@ namespace VIC.Creator.UI
 
             return false;
         }
+
 
         /// <summary>
         /// 读取MK信息 读取完毕进入编辑状态

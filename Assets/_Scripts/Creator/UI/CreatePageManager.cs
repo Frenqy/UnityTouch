@@ -22,6 +22,8 @@ namespace VIC.Creator.UI
         private GameObject mediaList;
         [SerializeField]
         private Animator readingAnimator;
+        [SerializeField]
+        private Animator exitConfirmAnimator;
 
         /// <summary>
         /// 是否触发Mk进入的事件
@@ -60,7 +62,24 @@ namespace VIC.Creator.UI
 
         public void ExitEditMode()
         {
+            if (isEnterEdit)
+            {
+                exitConfirmAnimator.Play("Modal Dialog In");
+                
+            }
+            else
+            {
+                ResetSignal();
+            }
+        }
+
+        public void ResetSignal()
+        {
+                readingAnimator.Play("Normal");
+                ListTabsManager.Instance.PanelAnim(0);
             isEnterEdit = false;
+            isReading = false;
+            this.enabled = false;
         }
 
         /// <summary>
@@ -119,7 +138,7 @@ namespace VIC.Creator.UI
                 // 
                 StartCoroutine(ReadMkInfo());
             }
-            else if(IsMkIn()==false)
+            else if (IsMkIn() == false)
             {
                 Debug.LogError("请将Marker放置到指定位置");
                 StopAllCoroutines();

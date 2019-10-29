@@ -46,14 +46,6 @@ namespace VIC.Creator.Marker
         /// <param name="triangels"></param>
         public void PrepareMarker(List<Triangel> triangels)
         {
-
-            StartCoroutine(ReadingAnimation(2.0f));
-            if (isEditing)
-            {
-                virtualMK = Instantiate<GameObject>(virtualMarkerPrefab, containerCanvas);
-                isEditing = false;
-            }
-
         }
 
         public void HideCreatorMarker(List<Triangel> triangels)

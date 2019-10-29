@@ -187,6 +187,7 @@ namespace VIC.Creator.UI
         /// </summary>
         private void SetupVirtualMarker(int index)
         {
+            Debug.LogError("当前MK编号 " + index);
             virtualMk = Instantiate(virtualMkPrefab, virtualPos);
         }
 

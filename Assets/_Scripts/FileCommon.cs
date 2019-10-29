@@ -74,6 +74,40 @@ public class FileCommon
         else return null;
     }
 
+    public static string OpenFile(string formatName, string[] type)
+    {
+        OpenFileDlg pth = new OpenFileDlg();
+        pth.structSize = Marshal.SizeOf(pth);
+        pth.filter = $"{type}文件(*." + type + ")\0*." + type;
+        pth.file = new string(new char[256]);
+        pth.maxFile = pth.file.Length;
+        pth.fileTitle = new string(new char[64]);
+        pth.maxFileTitle = pth.fileTitle.Length;
+        pth.initialDir = Application.streamingAssetsPath.Replace('/', '\\');
+        pth.title = "选择文件";
+        pth.flags = 0x00080000 | 0x00001000 | 0x00000800 | 0x00000200 | 0x00000008;
+
+        pth.filter = $"{formatName}文件(";
+        for (int i = 0; i < type.Length; i++)
+        {
+            pth.filter += $"*.{type[i]}";
+        }
+        pth.filter += ")\0";
+        for (int i = 0; i < type.Length - 1; i++)
+        {
+            pth.filter += $"*.{type[i]};";
+        }
+        pth.filter += $"*.{type[type.Length - 1]};";
+
+        if (GetOpenFileName(pth))
+        {
+            string filepath = pth.file;
+            return filepath;
+        }
+        else return null;
+    }
+
+
     public static string SaveFile(string type)
     {
         OpenFileDlg pth = new OpenFileDlg();

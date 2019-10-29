@@ -3,8 +3,9 @@
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Main Panel
   serializedVersion: 5
   m_AnimatorParameters: []
@@ -25,8 +26,9 @@ AnimatorController:
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: MP Fade-in Start 0
   m_Speed: 1
   m_CycleOffset: 0
@@ -50,8 +52,9 @@ AnimatorState:
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: MP Fade-in
   m_Speed: 1
   m_CycleOffset: 0
@@ -75,8 +78,9 @@ AnimatorState:
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: MP Fade-in Hexagon
   m_Speed: 1
   m_CycleOffset: 0
@@ -100,8 +104,9 @@ AnimatorState:
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: MP Modal In
   m_Speed: 1
   m_CycleOffset: 0
@@ -125,8 +130,9 @@ AnimatorState:
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: MP Modal Out
   m_Speed: 1
   m_CycleOffset: 0
@@ -150,8 +156,9 @@ AnimatorState:
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: MP Fade-in Start
   m_Speed: 1
   m_CycleOffset: 0
@@ -175,8 +182,9 @@ AnimatorState:
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Pause Menu In
   m_Speed: 1.5
   m_CycleOffset: 0
@@ -200,8 +208,9 @@ AnimatorState:
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: MP Fade-out
   m_Speed: 1
   m_CycleOffset: 0
@@ -225,28 +234,29 @@ AnimatorState:
 AnimatorStateMachine:
   serializedVersion: 5
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Base Layer
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102042698133073008}
-    m_Position: {x: 288, y: -72, z: 0}
+    m_Position: {x: 350, y: -70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102878156244365502}
-    m_Position: {x: 288, y: 108, z: 0}
+    m_Position: {x: 350, y: 110, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102783852902211172}
-    m_Position: {x: 288, y: -12, z: 0}
+    m_Position: {x: 350, y: -10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102475951606646616}
-    m_Position: {x: 288, y: 168, z: 0}
+    m_Position: {x: 350, y: 170, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102397894284310042}
-    m_Position: {x: 288, y: 228, z: 0}
+    m_Position: {x: 350, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102099812403155470}
-    m_Position: {x: 288, y: 48, z: 0}
+    m_Position: {x: 350, y: 50, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102819301938124694}
     m_Position: {x: 612, y: -84, z: 0}

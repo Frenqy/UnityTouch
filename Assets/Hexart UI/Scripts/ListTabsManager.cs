@@ -15,6 +15,8 @@ namespace VIC.Creator.UI
         [Header("Exit Button")]
         public GameObject exitBtn;
 
+        public static ListTabsManager Instance;
+
         // [Header("PANEL ANIMS")]
         private string panelFadeIn = "MP Fade-in";
         private string panelFadeInHex = "MP Fade-in Hexagon";
@@ -41,6 +43,11 @@ namespace VIC.Creator.UI
 
         private Animator currentButtonAnimator;
 
+        private void Awake()
+        {
+            Instance = this;
+        }
+
         void Start()
         {
             currentPanel = panels[currentPanelIndex];
@@ -52,6 +59,10 @@ namespace VIC.Creator.UI
             currentButtonAnimator.Play(buttonFadeIn);
         }
 
+        /// <summary>
+        /// 输入值为新的页面编号
+        /// </summary>
+        /// <param name="newPanel"></param>
         public void PanelAnim(int newPanel)
         {
             if (isHexagonAnimEnabled == true)

@@ -25,6 +25,10 @@ namespace VIC.Creator.UI
         [SerializeField]
         private Animator exitConfirmAnimator;
 
+        [Header("Marker配置信息")]
+        public GameObject virtualMkPrefab;
+        public Transform virtualPos;
+
         /// <summary>
         /// 是否触发Mk进入的事件
         /// </summary>
@@ -65,7 +69,7 @@ namespace VIC.Creator.UI
             if (isEnterEdit)
             {
                 exitConfirmAnimator.Play("Modal Dialog In");
-                
+
             }
             else
             {
@@ -75,8 +79,8 @@ namespace VIC.Creator.UI
 
         public void ResetSignal()
         {
-                readingAnimator.Play("Normal");
-                ListTabsManager.Instance.PanelAnim(0);
+            readingAnimator.Play("Normal");
+            ListTabsManager.Instance.PanelAnim(0);
             isEnterEdit = false;
             isReading = false;
             this.enabled = false;
@@ -89,21 +93,19 @@ namespace VIC.Creator.UI
         /// <param name="e"></param>
         private void OnPressedHandler(object sender, PointerEventArgs e)
         {
-            CheckCount();
+            MarkerDetection();
         }
 
         /// <summary>
         /// 检查三角形数量
         /// 时刻检查
         /// </summary>
-        private void CheckCount()
+        private void MarkerDetection()
         {
             if (Triangels.Count > 0)  // 已经放置了Mk且不在编辑状态
             {
-                // Mk数量大于1
                 if (Triangels.Count > 1)
                 {
-                    // TODO Marker放置数量大于1个，提示排除干扰
                     Debug.LogError("放置Marker数量过多");
                 }
                 else
@@ -113,7 +115,7 @@ namespace VIC.Creator.UI
                     Debug.ClearDeveloperConsole();
                 }
             }
-            else
+            else // 无Marker情况
             {
                 Debug.ClearDeveloperConsole();
             }
@@ -128,14 +130,6 @@ namespace VIC.Creator.UI
 
             if (IsMkIn() == true && !isReading) // 
             {
-                // 设置虚拟Marker
-                // 开启媒体列表
-                //SetupVirtualMarker(0);
-                //MarkerUpdated?.Invoke(Triangels);
-                //SetMediaList(true);
-
-                //hasInvokeMkIn = true;
-                // 
                 StartCoroutine(ReadMkInfo());
             }
             else if (IsMkIn() == false)
@@ -182,21 +176,24 @@ namespace VIC.Creator.UI
             readingAnimator.Play("Highlighted");
             yield return new WaitForSeconds(2.0f);
             isEnterEdit = true;
-
+            SetupVirtualMarker(Triangels[0].ID);
+            ShowMediaList(true);
         }
+
+        GameObject virtualMk;
 
         /// <summary>
         /// 设置虚拟Maker
         /// </summary>
         private void SetupVirtualMarker(int index)
         {
-
+            virtualMk = Instantiate(virtualMkPrefab, virtualPos);
         }
 
         /// <summary>
         /// 弹出媒体文件列表
         /// </summary>
-        private void SetMediaList(bool visible)
+        private void ShowMediaList(bool visible)
         {
             mediaList.SetActive(visible);
         }

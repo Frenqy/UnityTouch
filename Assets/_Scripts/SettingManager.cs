@@ -80,7 +80,7 @@ public static class SettingManager
         //因为会触发资源导入
         TempPath = @"D:\\tmp";
 #else
-        tempPath = Application.streamingAssetsPath.Replace('/', '\\') + "\\tmp";
+        TempPath = Application.streamingAssetsPath.Replace('/', '\\') + "\\tmp";
 #endif
 
         // 创建文件目录

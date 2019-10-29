@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TouchScript;
+using VIC.Creator.Marker;
 
 namespace VIC.Creator.UI
 {
@@ -106,7 +107,6 @@ namespace VIC.Creator.UI
             {
                 if (Triangels.Count > 1)
                 {
-                    Debug.LogError("放置Marker数量过多");
                 }
                 else
                 {
@@ -134,7 +134,6 @@ namespace VIC.Creator.UI
             }
             else if (IsMkIn() == false)
             {
-                Debug.LogError("请将Marker放置到指定位置");
                 StopAllCoroutines();
                 isReading = false;
                 readingAnimator.Play("Normal");
@@ -157,7 +156,6 @@ namespace VIC.Creator.UI
                     }
                     else
                     {
-                        Debug.ClearDeveloperConsole();
                     }
                 }
             }
@@ -180,7 +178,7 @@ namespace VIC.Creator.UI
             ShowMediaList(true);
         }
 
-        GameObject virtualMk;
+         VirtualMarker virtualMk;
 
         /// <summary>
         /// 设置虚拟Maker
@@ -188,7 +186,8 @@ namespace VIC.Creator.UI
         private void SetupVirtualMarker(int index)
         {
             Debug.LogError("当前MK编号 " + index);
-            virtualMk = Instantiate(virtualMkPrefab, virtualPos);
+            virtualMk = Instantiate(virtualMkPrefab, virtualPos).GetComponent<VirtualMarker>();
+            virtualMk.SetMkInfo(index);
         }
 
         /// <summary>

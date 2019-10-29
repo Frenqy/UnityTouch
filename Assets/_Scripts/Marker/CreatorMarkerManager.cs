@@ -38,6 +38,7 @@ namespace VIC.Creator.Marker
 
         private bool isEditing = true;
         GameObject virtualMK;
+
         /// <summary>
         /// 在左下角展示通用型的Marker
         /// 在中心点位置展示该Marker下的内容

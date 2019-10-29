@@ -154,9 +154,6 @@ namespace VIC.Creator.UI
                     {
                         return true;
                     }
-                    else
-                    {
-                    }
                 }
             }
 
@@ -178,7 +175,7 @@ namespace VIC.Creator.UI
             ShowMediaList(true);
         }
 
-         VirtualMarker virtualMk;
+        VirtualMarker virtualMk;
 
         /// <summary>
         /// 设置虚拟Maker

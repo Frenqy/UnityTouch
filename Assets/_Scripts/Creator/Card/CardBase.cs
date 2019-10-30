@@ -5,7 +5,18 @@ using UnityEngine.UI;
 
 public abstract class CardBase : MonoBehaviour
 {
-    [HideInInspector] public Media mediaSetting;
+    protected Media media;
+    public virtual Media mediaSetting
+    {
+        get
+        {
+            media.pos = transform.position;
+            media.rotate = transform.rotation;
+            media.scale = transform.localScale;
+            return media;
+        }
+    }
+
 
     protected GameObject IntroImg;
     protected GameObject AddBtn;

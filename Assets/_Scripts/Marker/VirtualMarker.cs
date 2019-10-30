@@ -12,7 +12,7 @@ namespace VIC.Creator.Marker
     public class VirtualMarker : MonoBehaviour
     {
         [SerializeField] private RawImage[] PreviewImg;
-        [SerializeField] private Button[] buttons;
+        [SerializeField] private ButtonActionGroup[] btnActions;
         [SerializeField] private Transform[] MediaParent;
 
         public Text mkID;
@@ -38,5 +38,33 @@ namespace VIC.Creator.Marker
 
         }
 
+    }
+
+    [System.Serializable]
+    public class ButtonActionGroup
+    {
+        public Button btn;
+        public Image previewImg;
+
+        private bool isAdd=false;
+        private ButtonSetting buttonSetting;
+        private int number;
+
+        public void Init()
+        {
+            btn.onClick.AddListener(OnAdd);
+        }
+
+        private void OnAdd()
+        {
+            isAdd = true;
+            Debug.LogError("虚拟MK点击了一次 " + number);
+            number++;
+        }
+
+        public void SaveToSetting()
+        {
+
+        }
     }
 }

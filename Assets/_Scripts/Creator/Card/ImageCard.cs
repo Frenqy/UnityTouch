@@ -38,6 +38,8 @@ public class ImageCard : CardBase
 
             raw.texture = content;
         }
+
+        //计算大小变化 维持两个按钮的大小
         Vector2 oldSize = raw.rectTransform.sizeDelta;
         raw.SetNativeSize();
         Vector2 newSize = raw.rectTransform.sizeDelta;

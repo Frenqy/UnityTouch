@@ -10,9 +10,8 @@ using UnityEngine.Animations;
 
 public class VideoCard : CardBase
 {
-    private RectTransform VideoDisplay;
-    private RectTransform UI;
-
+    private RectTransform VideoDisplay; //主播放器
+    private RectTransform UI;   //UI元素的父物体
 
     protected override void Start()
     {
@@ -21,28 +20,30 @@ public class VideoCard : CardBase
         CloseBtn = transform.Find("UI/CloseBtn").gameObject;
         VideoDisplay = transform.Find("VideoDisplay").GetComponent<RectTransform>();
         UI = transform.Find("UI").GetComponent<RectTransform>();
-
-        //oldSize = VideoDisplay.sizeDelta;
     }
 
     public override void AddMedia()
     {
         base.AddMedia();
 
+        //打开窗口获取文件
         mediaSetting.mediaType = MediaType.Video;
         mediaSetting.mediaContent = FileCommon.OpenFile("视频", new string[] { "mp4", "mkv", "avi", "wmv" });
-
-        VideoDisplay.GetComponent<DisplayUGUI>().color = Color.white;
 
         ShowVideo();
     }
 
     private void ShowVideo()
     {
+        //背景颜色换回白色
+        VideoDisplay.GetComponent<DisplayUGUI>().color = Color.white;
+
+        //设置VCR脚本
         VCR vcr = GetComponentInChildren<VCR>();
         vcr.paths = new string[] { mediaSetting.mediaContent };
         vcr.OnOpenVideoFile();
 
+        //因为VCR内切换播放器需要一点时间 所以延迟计算播放器的大小变化
         StartCoroutine(DelaySetSize());
     }
 
@@ -56,12 +57,7 @@ public class VideoCard : CardBase
         //计算大小变化
         Vector2 newSize = VideoDisplay.sizeDelta;
         Vector2 scale = newSize / oldSize;
-        float scaleF = Mathf.Min(scale.x, scale.y);
 
         UI.sizeDelta *= scale;
-        //UI.scaleOffset = Vector3.one * scale;
-        //UI.constraintActive = true;
-        //AddBtn.GetComponent<RectTransform>().sizeDelta *= scaleF;
-        //CloseBtn.GetComponent<RectTransform>().sizeDelta *= scaleF;
     }
 }

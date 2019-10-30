@@ -7,9 +7,20 @@ using UnityEngine.UI;
 
 public class ImageCard : CardBase
 {
+    private RawImage raw;
+
+    protected override void Start()
+    {
+        base.Start();
+
+        raw = GetComponent<RawImage>();
+    }
+
     public override void AddMedia()
     {
         base.AddMedia();
+
+        raw.color = Color.white;
 
         mediaSetting.mediaType = MediaType.Image;
         mediaSetting.mediaContent = FileCommon.OpenFile("图片", new string[] { "jpg", "png", "bmp", "gif" });

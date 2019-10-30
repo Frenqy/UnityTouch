@@ -7,14 +7,12 @@ public abstract class CardBase : MonoBehaviour
 {
     [HideInInspector] public Media mediaSetting;
 
-    protected RawImage raw;
     protected GameObject IntroImg;
     protected GameObject AddBtn;
     protected GameObject CloseBtn;
 
-    private void Start()
+    protected virtual void Start()
     {
-        raw = GetComponent<RawImage>();
         IntroImg = transform.Find("IntroImg").gameObject;
         AddBtn = transform.Find("AddBtn").gameObject;
         CloseBtn = transform.Find("CloseBtn").gameObject;
@@ -22,7 +20,6 @@ public abstract class CardBase : MonoBehaviour
 
     public virtual void AddMedia()
     {
-        raw.color = Color.white;
         IntroImg.SetActive(false);
         AddBtn.SetActive(true);
     }

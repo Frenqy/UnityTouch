@@ -54,26 +54,39 @@ public class FileCommon
         return GetSaveFileName(ofn);
     }
 
+    /// <summary>
+    /// 打开文件窗口选择指定类型文件
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
     public static string OpenFile(string type)
     {
-        OpenFileDlg pth = new OpenFileDlg();
-        pth.structSize = Marshal.SizeOf(pth);
-        pth.filter = $"{type}文件(*." + type + ")\0*." + type;
-        pth.file = new string(new char[256]);
-        pth.maxFile = pth.file.Length;
-        pth.fileTitle = new string(new char[64]);
-        pth.maxFileTitle = pth.fileTitle.Length;
-        pth.initialDir = Application.streamingAssetsPath.Replace('/', '\\');
-        pth.title = "选择文件";
-        pth.flags = 0x00080000 | 0x00001000 | 0x00000800 | 0x00000200 | 0x00000008;
-        if (GetOpenFileName(pth))
-        {
-            string filepath = pth.file;
-            return filepath;
-        }
-        else return null;
+        //OpenFileDlg pth = new OpenFileDlg();
+        //pth.structSize = Marshal.SizeOf(pth);
+        //pth.filter = $"{type}文件(*." + type + ")\0*." + type;
+        //pth.file = new string(new char[256]);
+        //pth.maxFile = pth.file.Length;
+        //pth.fileTitle = new string(new char[64]);
+        //pth.maxFileTitle = pth.fileTitle.Length;
+        //pth.initialDir = Application.streamingAssetsPath.Replace('/', '\\');
+        //pth.title = "选择文件";
+        //pth.flags = 0x00080000 | 0x00001000 | 0x00000800 | 0x00000200 | 0x00000008;
+        //if (GetOpenFileName(pth))
+        //{
+        //    string filepath = pth.file;
+        //    return filepath;
+        //}
+        //else return null;
+
+        return OpenFile(type, new string[] { type });
     }
 
+    /// <summary>
+    /// 打开文件窗口选择多种类型文件
+    /// </summary>
+    /// <param name="formatName">文件类型的描述，如：图片</param>
+    /// <param name="type">文件类型数组，如： { "jpg", "png", "bmp", "gif" }</param>
+    /// <returns></returns>
     public static string OpenFile(string formatName, string[] type)
     {
         OpenFileDlg pth = new OpenFileDlg();

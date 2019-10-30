@@ -112,12 +112,10 @@ namespace VIC.Creator.UI
                 {
                     // MK数量只有一个且不在编辑状态 则检查是否进入指定区域
                     CheckPlaceArea();
-                    Debug.ClearDeveloperConsole();
                 }
             }
             else // 无Marker情况
             {
-                Debug.ClearDeveloperConsole();
             }
         }
 
@@ -171,7 +169,7 @@ namespace VIC.Creator.UI
             readingAnimator.Play("Highlighted");
             yield return new WaitForSeconds(2.0f);
             isEnterEdit = true;
-            SetupVirtualMarker(Triangels[0].ID);
+            SetupVirtualMarker(Triangels[0].ID);    // 读取完成之后
             ShowMediaList(true);
         }
 
@@ -182,7 +180,6 @@ namespace VIC.Creator.UI
         /// </summary>
         private void SetupVirtualMarker(int index)
         {
-            Debug.LogError("当前MK编号 " + index);
             virtualMk = Instantiate(virtualMkPrefab, virtualPos).GetComponent<VirtualMarker>();
             virtualMk.SetMkInfo(index);
         }

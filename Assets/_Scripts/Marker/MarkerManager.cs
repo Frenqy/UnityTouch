@@ -43,10 +43,10 @@ public class MarkerManager : MonoBehaviour
         }
 
         //将详细的媒体配置信息传到marker的脚本内，并打开一次marker，初始化信息后再关闭
-        for (int i = 0; i < SettingManager.setting.markers.Count; i++)
+        for (int i = 0; i < SettingManager.markers.Count; i++)
         {
-            int id = SettingManager.setting.markers[i].MarkerID;
-            markers[id].buttonSettings = SettingManager.setting.markers[i].buttonSetting;
+            int id = SettingManager.markers[i].MarkerID;
+            markers[id].buttonSettings = SettingManager.markers[i].buttonSetting;
 
             markers[id].TextPrefab = TextPrefab;
             markers[id].ImagePrefab = ImagePrefab;

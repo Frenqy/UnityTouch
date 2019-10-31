@@ -14,6 +14,8 @@ namespace VIC.Creator.Marker
         [SerializeField] private RawImage[] PreviewImg;
         [SerializeField] private ButtonActionGroup[] btnActions;
         [SerializeField] private Transform[] MediaParent;
+        [SerializeField] private Sprite expandIcon;
+        [SerializeField] private Sprite collaspeIcon;
 
         public AnyButtonClick onAnyBtnExpand;
         public AnyButtonClick onAnyBtnCollapse;
@@ -37,6 +39,7 @@ namespace VIC.Creator.Marker
             {
                 btnActions[i].Init(onAnyBtnExpand, onAnyBtnCollapse);
                 btnActions[i].mediaPos = MediaParent[i];
+                MediaParent[i].gameObject.SetActive(false);
             }
         }
 
@@ -49,6 +52,8 @@ namespace VIC.Creator.Marker
         {
             Debug.LogError("展开 " + index + "层级");
             VirtualMarkerManager.Instance.SetMediaPos(MediaParent[index]);
+            btnActions[index].previewImg.sprite = collaspeIcon;
+            MediaParent[index].gameObject.SetActive(true);
             SetAllButtonsActivation(false);
             VirtualMarkerManager.Instance.SetAddState(true);
         }
@@ -57,6 +62,8 @@ namespace VIC.Creator.Marker
         {
             Debug.LogError("折叠 " + index + "层级");
 
+            btnActions[index].previewImg.sprite = expandIcon;
+            MediaParent[index].gameObject.SetActive(false);
             SetAllButtonsActivation(true);
             VirtualMarkerManager.Instance.SetAddState(false);
         }

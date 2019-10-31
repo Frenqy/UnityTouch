@@ -52,13 +52,7 @@ namespace VIC.Creator.Marker
                         //GameObject.Instantiate(videoCardPrefab, Vector3.zero, Quaternion.identity, mediaPos);
                         break;
                 }
-                Debug.LogError("添加了一个卡片");
             }
-        }
-
-        private void InstantiateCard()
-        {
-
         }
     }
 

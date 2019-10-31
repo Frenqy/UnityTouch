@@ -6,11 +6,19 @@ using UnityEngine;
 
 public static class SettingManager
 {
-    public static Setting setting { get; private set; } = null;
+    /// <summary>
+    /// 存储从json读出来的Setting
+    /// </summary>
+    private static Setting setting = null;
+
+    /// <summary>
+    /// Setting内的详细marker信息
+    /// </summary>
+    public static List<MarkerSetting> markers => setting?.markers;
 
     public static string TempPath { get; private set; }
 
-    private static byte[] KEY = new byte[] { 0, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 0 };
+    private static readonly byte[] KEY = new byte[] { 0, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 0 };
 
     /// <summary>
     /// 将Setting以及对应的资源文件打包
@@ -26,21 +34,21 @@ public static class SettingManager
 
         //修改Setting，统计需要打包的文件
         string outpath, outfile;
-        for (int i = 0; i < setting.markers.Count; i++)
+        for (int i = 0; i < markers.Count; i++)
         {
-            for (int j = 0; j < setting.markers[i].buttonSetting.Count; j++)
+            for (int j = 0; j < markers[i].buttonSetting.Count; j++)
             {
-                fileList.Add(setting.markers[i].buttonSetting[j].previewPath);
-                FileCommon.SplitFilePath(setting.markers[i].buttonSetting[j].previewPath, new string[] { "\\" }, out outpath, out outfile);
-                setting.markers[i].buttonSetting[j].previewPath = "$PathPrefix$"+ outfile;
+                fileList.Add(markers[i].buttonSetting[j].previewPath);
+                FileCommon.SplitFilePath(markers[i].buttonSetting[j].previewPath, new string[] { "\\" }, out outpath, out outfile);
+                markers[i].buttonSetting[j].previewPath = "$PathPrefix$"+ outfile;
 
-                for (int k = 0; k < setting.markers[i].buttonSetting[j].mediaList.Count; k++)
+                for (int k = 0; k < markers[i].buttonSetting[j].mediaList.Count; k++)
                 {
-                    fileList.Add(setting.markers[i].buttonSetting[j].mediaList[k].mediaContent);
-                    int length = FileCommon.SplitFilePath(setting.markers[i].buttonSetting[j].mediaList[k].mediaContent, new string[] { "\\" }, out outpath, out outfile);
+                    fileList.Add(markers[i].buttonSetting[j].mediaList[k].mediaContent);
+                    int length = FileCommon.SplitFilePath(markers[i].buttonSetting[j].mediaList[k].mediaContent, new string[] { "\\" }, out outpath, out outfile);
                     if (length != 1) //判断mediaContent内存放的是路径还是文本内容
                     {
-                        setting.markers[i].buttonSetting[j].mediaList[k].mediaContent = "$PathPrefix$" + outfile;
+                        markers[i].buttonSetting[j].mediaList[k].mediaContent = "$PathPrefix$" + outfile;
                     }
                 }
             }
@@ -111,14 +119,14 @@ public static class SettingManager
             FileCommon.SplitFilePath(filepath, new string[] { "\\" }, out path, out file);
 
             //路径replace
-            for (int i = 0; i < setting.markers.Count; i++)
+            for (int i = 0; i < markers.Count; i++)
             {
-                for (int j = 0; j < setting.markers[i].buttonSetting.Count; j++)
+                for (int j = 0; j < markers[i].buttonSetting.Count; j++)
                 {
-                    setting.markers[i].buttonSetting[j].previewPath = setting.markers[i].buttonSetting[j].previewPath.Replace("$PathPrefix$", path);
-                    for (int k = 0; k < setting.markers[i].buttonSetting[j].mediaList.Count; k++)
+                    markers[i].buttonSetting[j].previewPath = markers[i].buttonSetting[j].previewPath.Replace("$PathPrefix$", path);
+                    for (int k = 0; k < markers[i].buttonSetting[j].mediaList.Count; k++)
                     {
-                        setting.markers[i].buttonSetting[j].mediaList[k].mediaContent = setting.markers[i].buttonSetting[j].mediaList[k].mediaContent.Replace("$PathPrefix$", path);
+                        markers[i].buttonSetting[j].mediaList[k].mediaContent = markers[i].buttonSetting[j].mediaList[k].mediaContent.Replace("$PathPrefix$", path);
                     }
                 }
             }

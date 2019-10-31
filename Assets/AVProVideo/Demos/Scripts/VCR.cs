@@ -93,6 +93,8 @@ namespace RenderHeads.Media.AVProVideo.Demos
 		public void OnOpenVideoFile()
  		{
             //LoadingPlayer.m_VideoPath = System.IO.Path.Combine(_folder, _videoFiles[_VideoIndex]);
+            if (paths.Length == 0) return;
+
             LoadingPlayer.m_VideoPath = paths[_VideoIndex];
             //_VideoIndex = (_VideoIndex + 1) % (_videoFiles.Length);
             _VideoIndex = (_VideoIndex + 1) % (paths.Length);

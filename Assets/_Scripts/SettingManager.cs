@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public static class SettingManager
 {
@@ -25,7 +26,7 @@ public static class SettingManager
     /// </summary>
     /// <param name="packSetting"></param>
     /// <returns>保存模板是否成功</returns>
-    public static bool PackSetting(Setting packSetting)
+    public static IEnumerator PackSetting(Setting packSetting, UnityAction<float> progressCallback)
     {
         //获取保存路径
         string zipFilePath = FileCommon.SaveFile("vkxr");
@@ -72,19 +73,20 @@ public static class SettingManager
         //打包成zip
         bool packResult = ZipUtility.Zip(files, zipFilePath + ".tmp");
         //对zip进行加密
-        if(packResult) FileCommon.Encrypt(zipFilePath + ".tmp", zipFilePath, KEY);
+        if (packResult) 
+            yield return FileCommon.Encrypt(zipFilePath + ".tmp", zipFilePath, KEY, progressCallback);
         //清理临时文件
         File.Delete(jsonPath);
         File.Delete(zipFilePath + ".tmp");
 
-        return packResult;
+        //return packResult;
     }
 
     /// <summary>
     /// 加载vkxr资源包
     /// </summary>
     /// <returns>加载结果 需要返回true再继续</returns>
-    public static bool LoadSettingPack()
+    public static IEnumerator LoadSettingPack(UnityAction<float> progressCallback)
     {
         //获取模板文件
         string packPath = FileCommon.OpenFile("vkxr");
@@ -101,14 +103,14 @@ public static class SettingManager
         if (!Directory.Exists(TempPath)) Directory.CreateDirectory(TempPath);
 
         //解密并尝试解压
-        FileCommon.Decrypt(packPath, TempPath + "\\pack.tmp", KEY);
+        yield return FileCommon.Decrypt(packPath, TempPath + "\\pack.tmp", KEY, progressCallback);
         bool unpackResult = ZipUtility.UnzipFile(TempPath + "\\pack.tmp", TempPath);
         //清理临时文件
         File.Delete(TempPath + "\\pack.tmp");
         //读取json
         if(unpackResult) LoadSettingFromJson(TempPath + "\\setting.json");
 
-        return unpackResult;
+        //return unpackResult;
     }
 
     private static void LoadSettingFromJson(string filepath)

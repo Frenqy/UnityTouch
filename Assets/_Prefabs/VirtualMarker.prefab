@@ -156,17 +156,29 @@ MonoBehaviour:
   PreviewImg: []
   btnActions:
   - btn: {fileID: 6412091022733301845}
+    btnIndex: 0
     previewImg: {fileID: 7671987205273659171}
+    mediaPos: {fileID: 0}
   - btn: {fileID: 8088605882598784193}
+    btnIndex: 1
     previewImg: {fileID: 7671987206549646101}
+    mediaPos: {fileID: 0}
   - btn: {fileID: 1146076487730595850}
+    btnIndex: 2
     previewImg: {fileID: 7671987204922978732}
+    mediaPos: {fileID: 0}
   - btn: {fileID: 2641725260322550272}
+    btnIndex: 3
     previewImg: {fileID: 7671987206197042592}
+    mediaPos: {fileID: 0}
   - btn: {fileID: 402349610174638646}
+    btnIndex: 4
     previewImg: {fileID: 7671987205977319836}
+    mediaPos: {fileID: 0}
   - btn: {fileID: 6586312020091391292}
+    btnIndex: 5
     previewImg: {fileID: 7671987206397963686}
+    mediaPos: {fileID: 0}
   MediaParent:
   - {fileID: 8063892977365253530}
   - {fileID: 8063892977131502900}
@@ -249,7 +261,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 3
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -447,7 +459,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 3
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -527,7 +539,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 3
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -725,7 +737,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 3
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -805,7 +817,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 3
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1357,7 +1369,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 3
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}

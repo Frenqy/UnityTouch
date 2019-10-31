@@ -214,6 +214,7 @@ public static class SettingManager
     public Quaternion rotate;
 }
 
+[System.Serializable]
 public enum MediaType
 {
     None,

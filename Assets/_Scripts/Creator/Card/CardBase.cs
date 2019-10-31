@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public abstract class CardBase : MonoBehaviour
 {
-    protected Media media;
+    protected Media media = new Media();
     public virtual Media mediaSetting
     {
         get

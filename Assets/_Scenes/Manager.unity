@@ -12644,7 +12644,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[5].m_Target
       value: 
-      objectReference: {fileID: 1546210275}
+      objectReference: {fileID: 0}
     - target: {fileID: 114348352206016790, guid: e6083abf9fe5e6b4090973a15b282249,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[5].m_MethodName
@@ -49635,7 +49635,6 @@ GameObject:
   - component: {fileID: 1546210271}
   - component: {fileID: 1546210270}
   - component: {fileID: 1546210274}
-  - component: {fileID: 1546210275}
   m_Layer: 5
   m_Name: CreateNew
   m_TagString: Untagged
@@ -49725,27 +49724,6 @@ MonoBehaviour:
   virtualMkPrefab: {fileID: 7671987204883527604, guid: 722ddf6e34b7410478b48f4b698a14ff,
     type: 3}
   virtualPos: {fileID: 1130100875}
---- !u!114 &1546210275
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1546210269}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 648548c7c5e9dc3498813223230703d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MarkerPrefab: {fileID: 5830797755494932574, guid: 544a6adbf7c234e40859b4ecd9a7a678,
-    type: 3}
-  TextPrefab: {fileID: 9119183578330480056, guid: 1405e97560dff55449ebdb51a217ffd8,
-    type: 3}
-  ImagePrefab: {fileID: 4098750425543327233, guid: eccdcb416da91ac468df29d975a3ef27,
-    type: 3}
-  VideoPrefab: {fileID: 5889070067324015983, guid: c7e0f6f058f18354da898ad79f4d27aa,
-    type: 3}
-  UIParent: {fileID: 104410532}
 --- !u!1 &1546328314
 GameObject:
   m_ObjectHideFlags: 0
@@ -56705,7 +56683,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 1546210275}
+      objectReference: {fileID: 0}
     - target: {fileID: 114618955383170242, guid: 7318a0ba7dcef8e4690ced9544d04da4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
@@ -56765,7 +56743,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1546210275}
+      objectReference: {fileID: 0}
     - target: {fileID: 114618955383170242, guid: 7318a0ba7dcef8e4690ced9544d04da4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName

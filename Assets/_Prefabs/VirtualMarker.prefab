@@ -187,7 +187,7 @@ MonoBehaviour:
   - {fileID: 8063892977011097448}
   - {fileID: 8063892976285091433}
   expandIcon: {fileID: 21300000, guid: c83383883c026454bb4f9c1c9ab93610, type: 3}
-  collaspeIcon: {fileID: 21300000, guid: 890b347925e06f84aaaa58d18350018f, type: 3}
+  collaspeIcon: {fileID: 21300000, guid: 205c557bbed936d4c9e7fb3013ad7d2d, type: 3}
   mkID: {fileID: 7777565298012080267}
 --- !u!95 &3271008772555667879
 Animator:

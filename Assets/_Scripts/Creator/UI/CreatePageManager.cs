@@ -114,9 +114,6 @@ namespace VIC.Creator.UI
                     CheckPlaceArea();
                 }
             }
-            else // 无Marker情况
-            {
-            }
         }
 
         /// <summary>

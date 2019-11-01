@@ -10,7 +10,7 @@ namespace VIC.Creator.Marker
     /// 2.读取信息动画完成，出现虚拟MK和媒体文件列表
     /// 3.拿走MK 不影响信息编辑
     /// </summary>
-    public class CreatorMarkerManager : MonoBehaviour
+    public class CreateNewMarkerManager : MonoBehaviour
     {
         public GameObject virtualMarkerPrefab;
         public Transform containerCanvas;

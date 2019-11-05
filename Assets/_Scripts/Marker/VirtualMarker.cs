@@ -90,7 +90,7 @@ namespace VIC.Creator.Marker
 
         private bool isExpanded = false;
 
-        private ButtonSetting buttonSetting;
+        private ButtonSetting buttonSetting = new ButtonSetting();
         private UIGradient gradient;
         private AnyButtonClick onExpandDelegate;
         private AnyButtonClick onCollapseDelegate;
@@ -129,12 +129,12 @@ namespace VIC.Creator.Marker
                 btn.onClick.AddListener(OnExpand);
             }
 
+            //在折叠当前按钮的时候获取一次当前按钮设置
             GetSettingInfo();
         }
 
         public void GetSettingInfo()
         {
-            buttonSetting = new ButtonSetting();
             //初始数据
             buttonSetting.buttonID = btnIndex;
             buttonSetting.previewPath = null;
@@ -142,7 +142,7 @@ namespace VIC.Creator.Marker
             var cards = mediaPos.GetComponentsInChildren<CardBase>(true);
             buttonSetting.mediaList = cards.Select(x => x.mediaSetting).ToList();
 
-            Debug.Log(buttonSetting.mediaList.Count);
+            Debug.LogError(buttonSetting.mediaList.Count);
         }
     }
 

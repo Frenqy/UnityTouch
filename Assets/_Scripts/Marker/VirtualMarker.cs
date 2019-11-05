@@ -77,6 +77,21 @@ namespace VIC.Creator.Marker
             }
         }
 
+        //用于测试 按下S保存当前MK为vkxr
+        private void Update()
+        {
+            if (Input.GetKeyUp(KeyCode.S))
+            {
+                MarkerSetting marker = new MarkerSetting();
+                marker.MarkerID = int.Parse(mkID.text);
+                marker.buttonSetting = btnActions.Select(x => x.buttonSetting).ToList();
+
+                Setting setting = new Setting();
+                setting.markers.Add(marker);
+
+                SettingManager.PackSetting(setting);
+            }
+        }
     }
 
     [System.Serializable]
@@ -90,10 +105,25 @@ namespace VIC.Creator.Marker
 
         private bool isExpanded = false;
 
-        private ButtonSetting buttonSetting = new ButtonSetting();
         private UIGradient gradient;
         private AnyButtonClick onExpandDelegate;
         private AnyButtonClick onCollapseDelegate;
+
+        private ButtonSetting button = new ButtonSetting();
+        public ButtonSetting buttonSetting 
+        { 
+            get 
+            {
+                //初始数据
+                button.buttonID = btnIndex;
+                button.previewPath = null;
+                //遍历获取CardBase
+                var cards = mediaPos.GetComponentsInChildren<CardBase>(true);
+                button.mediaList = cards.Select(x => x.mediaSetting).ToList();
+
+                return button;
+            }
+        }
 
         public void Init(AnyButtonClick onExpand, AnyButtonClick onCollapse)
         {
@@ -135,14 +165,6 @@ namespace VIC.Creator.Marker
 
         public void GetSettingInfo()
         {
-            //初始数据
-            buttonSetting.buttonID = btnIndex;
-            buttonSetting.previewPath = null;
-            //遍历获取CardBase
-            var cards = mediaPos.GetComponentsInChildren<CardBase>(true);
-            buttonSetting.mediaList = cards.Select(x => x.mediaSetting).ToList();
-
-            Debug.LogError(buttonSetting.mediaList.Count);
         }
     }
 

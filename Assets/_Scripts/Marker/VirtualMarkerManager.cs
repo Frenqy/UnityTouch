@@ -11,8 +11,8 @@ namespace VIC.Creator.Marker
         public GameObject videoCardPrefab;
         public static VirtualMarkerManager Instance;
 
-        private List<List<CardBase>> cardContainer = new List<List<CardBase>>();
-        private List<CardBase> cardList = new List<CardBase>();
+        //private List<List<CardBase>> cardContainer = new List<List<CardBase>>();
+        //private List<CardBase> cardList = new List<CardBase>();
         private Transform mediaPos { get; set; }
         private bool canAdd = false;
 

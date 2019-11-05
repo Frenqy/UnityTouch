@@ -116,7 +116,7 @@ namespace VIC.Creator.Marker
             {
                 //初始数据
                 button.buttonID = btnIndex;
-                button.previewPath = null;
+                button.previewPath = string.Empty;
                 //遍历获取CardBase
                 var cards = mediaPos.GetComponentsInChildren<CardBase>(true);
                 button.mediaList = cards.Select(x => x.mediaSetting).ToList();

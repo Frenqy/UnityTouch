@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 
 namespace VIC.Creator.Marker
 {
@@ -127,11 +128,20 @@ namespace VIC.Creator.Marker
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(OnExpand);
             }
+
+            GetSettingInfo();
         }
 
         public void GetSettingInfo()
         {
+            //初始数据
+            buttonSetting.buttonID = btnIndex;
+            buttonSetting.previewPath = null;
+            //遍历获取CardBase
+            var cards = mediaPos.GetComponentsInChildren<CardBase>(true);
+            buttonSetting.mediaList = cards.Select(x => x.mediaSetting).ToList();
 
+            Debug.Log(buttonSetting.mediaList.Count);
         }
     }
 

@@ -134,6 +134,7 @@ namespace VIC.Creator.Marker
 
         public void GetSettingInfo()
         {
+            buttonSetting = new ButtonSetting();
             //初始数据
             buttonSetting.buttonID = btnIndex;
             buttonSetting.previewPath = null;

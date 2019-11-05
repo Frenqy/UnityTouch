@@ -34,21 +34,21 @@ public static class SettingManager
 
         //修改Setting，统计需要打包的文件
         string outpath, outfile;
-        for (int i = 0; i < markers.Count; i++)
+        for (int i = 0; i < setting.markers.Count; i++)
         {
-            for (int j = 0; j < markers[i].buttonSetting.Count; j++)
+            for (int j = 0; j < setting.markers[i].buttonSetting.Count; j++)
             {
-                fileList.Add(markers[i].buttonSetting[j].previewPath);
-                FileCommon.SplitFilePath(markers[i].buttonSetting[j].previewPath, new string[] { "\\" }, out outpath, out outfile);
-                markers[i].buttonSetting[j].previewPath = "$PathPrefix$"+ outfile;
+                fileList.Add(setting.markers[i].buttonSetting[j].previewPath);
+                FileCommon.SplitFilePath(setting.markers[i].buttonSetting[j].previewPath, new string[] { "\\" }, out outpath, out outfile);
+                setting.markers[i].buttonSetting[j].previewPath = "$PathPrefix$"+ outfile;
 
-                for (int k = 0; k < markers[i].buttonSetting[j].mediaList.Count; k++)
+                for (int k = 0; k < setting.markers[i].buttonSetting[j].mediaList.Count; k++)
                 {
-                    fileList.Add(markers[i].buttonSetting[j].mediaList[k].mediaContent);
-                    int length = FileCommon.SplitFilePath(markers[i].buttonSetting[j].mediaList[k].mediaContent, new string[] { "\\" }, out outpath, out outfile);
+                    fileList.Add(setting.markers[i].buttonSetting[j].mediaList[k].mediaContent);
+                    int length = FileCommon.SplitFilePath(setting.markers[i].buttonSetting[j].mediaList[k].mediaContent, new string[] { "\\" }, out outpath, out outfile);
                     if (length != 1) //判断mediaContent内存放的是路径还是文本内容
                     {
-                        markers[i].buttonSetting[j].mediaList[k].mediaContent = "$PathPrefix$" + outfile;
+                        setting.markers[i].buttonSetting[j].mediaList[k].mediaContent = "$PathPrefix$" + outfile;
                     }
                 }
             }

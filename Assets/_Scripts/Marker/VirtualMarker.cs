@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 
 namespace VIC.Creator.Marker
 {
@@ -76,6 +77,28 @@ namespace VIC.Creator.Marker
             }
         }
 
+        ////用于测试 按下S保存当前MK为vkxr
+        //private void Update()
+        //{
+        //    if (Input.GetKeyUp(KeyCode.S))
+        //    {
+        //        SaveSetting();
+        //    }
+        //}
+
+        private void SaveSetting()
+        {
+            MarkerSetting marker = new MarkerSetting();
+            marker.MarkerID = int.Parse(mkID.text);
+            marker.buttonSetting = btnActions.Select(x => x.buttonSetting).ToList();
+
+            Setting setting = new Setting();
+            setting.markers.Add(marker);
+
+            SettingManager.PackSetting(setting);
+
+            //tip:在完成打包操作之后 必须清理已有的CardBase（未完成）
+        }
     }
 
     [System.Serializable]
@@ -89,10 +112,25 @@ namespace VIC.Creator.Marker
 
         private bool isExpanded = false;
 
-        private ButtonSetting buttonSetting;
         private UIGradient gradient;
         private AnyButtonClick onExpandDelegate;
         private AnyButtonClick onCollapseDelegate;
+
+        private ButtonSetting button = new ButtonSetting();
+        public ButtonSetting buttonSetting 
+        { 
+            get 
+            {
+                //初始数据
+                button.buttonID = btnIndex;
+                button.previewPath = string.Empty;
+                //遍历获取CardBase
+                var cards = mediaPos.GetComponentsInChildren<CardBase>(true);
+                button.mediaList = cards.Select(x => x.mediaSetting).ToList();
+
+                return button;
+            }
+        }
 
         public void Init(AnyButtonClick onExpand, AnyButtonClick onCollapse)
         {
@@ -127,11 +165,13 @@ namespace VIC.Creator.Marker
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(OnExpand);
             }
+
+            //在折叠当前按钮的时候获取一次当前按钮设置
+            GetSettingInfo();
         }
 
         public void GetSettingInfo()
         {
-
         }
     }
 

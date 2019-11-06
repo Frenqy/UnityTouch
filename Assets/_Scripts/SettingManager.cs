@@ -23,9 +23,9 @@ public static class SettingManager
     /// <summary>
     /// 将Setting以及对应的资源文件打包
     /// </summary>
-    /// <param name="setting"></param>
+    /// <param name="packSetting"></param>
     /// <returns>保存模板是否成功</returns>
-    public static bool PackSetting(Setting setting)
+    public static bool PackSetting(Setting packSetting)
     {
         //获取保存路径
         string zipFilePath = FileCommon.SaveFile("vkxr");
@@ -34,21 +34,27 @@ public static class SettingManager
 
         //修改Setting，统计需要打包的文件
         string outpath, outfile;
-        for (int i = 0; i < markers.Count; i++)
+        for (int i = 0; i < packSetting.markers.Count; i++)
         {
-            for (int j = 0; j < markers[i].buttonSetting.Count; j++)
+            for (int j = 0; j < packSetting.markers[i].buttonSetting.Count; j++)
             {
-                fileList.Add(markers[i].buttonSetting[j].previewPath);
-                FileCommon.SplitFilePath(markers[i].buttonSetting[j].previewPath, new string[] { "\\" }, out outpath, out outfile);
-                markers[i].buttonSetting[j].previewPath = "$PathPrefix$"+ outfile;
-
-                for (int k = 0; k < markers[i].buttonSetting[j].mediaList.Count; k++)
+                //循环：设置缩略图路径
+                //判空：判断有没有设置缩略图
+                if (!string.IsNullOrEmpty(packSetting.markers[i].buttonSetting[j].previewPath))
                 {
-                    fileList.Add(markers[i].buttonSetting[j].mediaList[k].mediaContent);
-                    int length = FileCommon.SplitFilePath(markers[i].buttonSetting[j].mediaList[k].mediaContent, new string[] { "\\" }, out outpath, out outfile);
+                    fileList.Add(packSetting.markers[i].buttonSetting[j].previewPath);
+                    FileCommon.SplitFilePath(packSetting.markers[i].buttonSetting[j].previewPath, new string[] { "\\" }, out outpath, out outfile);
+                    packSetting.markers[i].buttonSetting[j].previewPath = "$PathPrefix$" + outfile;
+                }
+
+                //内部循环：设置媒体文件路径
+                for (int k = 0; k < packSetting.markers[i].buttonSetting[j].mediaList.Count; k++)
+                {
+                    fileList.Add(packSetting.markers[i].buttonSetting[j].mediaList[k].mediaContent);
+                    int length = FileCommon.SplitFilePath(packSetting.markers[i].buttonSetting[j].mediaList[k].mediaContent, new string[] { "\\" }, out outpath, out outfile);
                     if (length != 1) //判断mediaContent内存放的是路径还是文本内容
                     {
-                        markers[i].buttonSetting[j].mediaList[k].mediaContent = "$PathPrefix$" + outfile;
+                        packSetting.markers[i].buttonSetting[j].mediaList[k].mediaContent = "$PathPrefix$" + outfile;
                     }
                 }
             }
@@ -57,7 +63,7 @@ public static class SettingManager
 
         //生成json并添加进打包列表
         string jsonPath = outpath + "setting.json";
-        SaveSettingToJson(setting, jsonPath);
+        SaveSettingToJson(packSetting, jsonPath);
         fileList.Add(jsonPath);
 
         //将需要打包的文件列表转换成数组

@@ -70,11 +70,14 @@ public class Marker : MonoBehaviour
     private IEnumerator InitButton(int buttonSettingIndex)
     {
         //设置每个按钮的缩略图
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(@"file://" + buttonSettings[buttonSettingIndex].previewPath))
+        if (!string.IsNullOrEmpty(buttonSettings[buttonSettingIndex].previewPath)) 
         {
-            webRequest.downloadHandler = new DownloadHandlerTexture();
-            yield return webRequest.SendWebRequest();
-            PreviewImg[buttonSettings[buttonSettingIndex].buttonID].texture = DownloadHandlerTexture.GetContent(webRequest);
+            using (UnityWebRequest webRequest = UnityWebRequest.Get(@"file://" + buttonSettings[buttonSettingIndex].previewPath))
+            {
+                webRequest.downloadHandler = new DownloadHandlerTexture();
+                yield return webRequest.SendWebRequest();
+                PreviewImg[buttonSettings[buttonSettingIndex].buttonID].texture = DownloadHandlerTexture.GetContent(webRequest);
+            }
         }
 
         //设置按钮本身的点击功能

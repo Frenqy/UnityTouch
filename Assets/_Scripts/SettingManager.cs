@@ -74,7 +74,7 @@ public static class SettingManager
         bool packResult = ZipUtility.Zip(files, zipFilePath + ".tmp");
         //对zip进行加密
         if (packResult) 
-            yield return FileCommon.Encrypt(zipFilePath + ".tmp", zipFilePath, KEY, progressCallback);
+            yield return FileCommon.EncryptFile(zipFilePath + ".tmp", zipFilePath, KEY, progressCallback);
         //清理临时文件
         File.Delete(jsonPath);
         File.Delete(zipFilePath + ".tmp");
@@ -103,7 +103,7 @@ public static class SettingManager
         if (!Directory.Exists(TempPath)) Directory.CreateDirectory(TempPath);
 
         //解密并尝试解压
-        yield return FileCommon.Decrypt(packPath, TempPath + "\\pack.tmp", KEY, progressCallback);
+        yield return FileCommon.DecryptFile(packPath, TempPath + "\\pack.tmp", KEY, progressCallback);
         bool unpackResult = ZipUtility.UnzipFile(TempPath + "\\pack.tmp", TempPath);
         //清理临时文件
         File.Delete(TempPath + "\\pack.tmp");

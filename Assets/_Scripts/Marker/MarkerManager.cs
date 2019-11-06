@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Collections;
 //using System.Windows.Forms;
 
 public class MarkerManager : MonoBehaviour
@@ -26,13 +27,29 @@ public class MarkerManager : MonoBehaviour
 
     private void Start()
     {
-        SettingManager.LoadSettingPack();
-        Init();
+        //SettingManager.LoadSettingPack();
+        //Init();
+        StartCoroutine(Init());
+
+        //StartCoroutine(FileCommon.Encrypt(@"E:\pack.zip", @"E:\Encrypt.vkxr",
+        //    new byte[] { 0, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 0 },
+        //    (p) =>
+        //    {
+        //        Debug.Log(p);
+        //    }));
+
+        //StartCoroutine(FileCommon.Decrypt(@"E:\Encrypt.vkxr", @"E:\de.zip",
+        //    new byte[] { 0, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 1, 3, 5, 7, 9, 0 },
+        //    (p) =>
+        //    {
+        //        Debug.Log(p);
+        //    }));
+
     }
 
-    public void Init()
+    public IEnumerator Init()
     {
-
+        yield return StartCoroutine(SettingManager.LoadSettingPack((p) => Debug.LogError("加载中：" + p * 100 + "%")));
 
         //提前生成marker（按Degrees数量而不是marker中配置数量生成，这样在管理状态的时候会更方便）
         for (int i = 0; i < Triangel.Degrees.Length; i++)

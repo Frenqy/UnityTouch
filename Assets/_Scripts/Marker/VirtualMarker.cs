@@ -95,7 +95,7 @@ namespace VIC.Creator.Marker
             Setting setting = new Setting();
             setting.markers.Add(marker);
 
-            SettingManager.PackSetting(setting);
+            SettingManager.PackSetting(setting, null);
 
             //tip:在完成打包操作之后 必须清理已有的CardBase（未完成）
         }

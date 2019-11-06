@@ -4,7 +4,11 @@ using UnityEngine;
 using System.IO.Compression;
 using System.Text;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
+using System.Collections.Generic;
+using System.Collections;
+using UnityEngine.Events;
 
 [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
 
@@ -43,7 +47,6 @@ public class FileCommon
     [DllImport("Comdlg32.dll", SetLastError = true, ThrowOnUnmappableChar = true, CharSet = CharSet.Auto)]
     public static extern bool GetSaveFileName([In, Out] OpenFileDlg ofn); 
 
-
     public static bool GetOFN([In, Out] OpenFileDlg ofn)
     {
         return GetOpenFileName(ofn);//执行打开文件的操作
@@ -61,23 +64,6 @@ public class FileCommon
     /// <returns></returns>
     public static string OpenFile(string type)
     {
-        //OpenFileDlg pth = new OpenFileDlg();
-        //pth.structSize = Marshal.SizeOf(pth);
-        //pth.filter = $"{type}文件(*." + type + ")\0*." + type;
-        //pth.file = new string(new char[256]);
-        //pth.maxFile = pth.file.Length;
-        //pth.fileTitle = new string(new char[64]);
-        //pth.maxFileTitle = pth.fileTitle.Length;
-        //pth.initialDir = Application.streamingAssetsPath.Replace('/', '\\');
-        //pth.title = "选择文件";
-        //pth.flags = 0x00080000 | 0x00001000 | 0x00000800 | 0x00000200 | 0x00000008;
-        //if (GetOpenFileName(pth))
-        //{
-        //    string filepath = pth.file;
-        //    return filepath;
-        //}
-        //else return null;
-
         return OpenFile(type, new string[] { type });
     }
 
@@ -120,7 +106,11 @@ public class FileCommon
         else return null;
     }
 
-
+    /// <summary>
+    /// 打开文件窗口保存文件
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
     public static string SaveFile(string type)
     {
         OpenFileDlg pth = new OpenFileDlg();
@@ -214,58 +204,149 @@ public class FileCommon
         }
     }
 
-    public static void Encrypt(string inFilePath, string outFilePath, byte[] key)
+    /// <summary>
+    /// 加密磁盘中的文件
+    /// </summary>
+    /// <param name="inFilePath">要加密的文件的路径</param>
+    /// <param name="outFilePath">加密后文件的存放位置</param>
+    /// <param name="key">密钥</param>
+    /// <param name="progressCallback">进度回调，范围0-1</param>
+    /// <returns></returns>
+    public static IEnumerator EncryptFile(string inFilePath, string outFilePath, byte[] key, UnityAction<float> progressCallback)
     {
-        byte[] src;
+        const int E_BLOCKSIZE = 1048576;
+        int readCount = 0;
+        byte[] buffer;
 
-        //读取文件
-        using (FileStream fs = File.OpenRead(inFilePath))
+        using (FileStream readFs = File.OpenRead(inFilePath))
         {
-            src = new byte[fs.Length];
-            fs.Read(src, 0, src.Length);
-        }
-
-        //加密操作
-        RijndaelManaged rDel = new RijndaelManaged();
-        rDel.Key = key;
-        rDel.Mode = CipherMode.ECB;
-        rDel.Padding = PaddingMode.PKCS7;
-
-        ICryptoTransform cTransform = rDel.CreateEncryptor();
-        byte[] resultArray = cTransform.TransformFinalBlock(src, 0, src.Length);
-
-        //写入文件
-        using (FileStream fs = File.Create(outFilePath))
-        {
-            fs.Write(resultArray, 0, resultArray.Length);
+            using (FileStream writeFs = File.Create(outFilePath))
+            {
+                buffer = new byte[E_BLOCKSIZE];
+                while ((readCount = readFs.Read(buffer, 0, E_BLOCKSIZE)) > 0)
+                {
+                    if (readCount == E_BLOCKSIZE)
+                    {
+                        byte[] result = Encrypt(buffer, key);
+                        writeFs.Write(result, 0, result.Length);
+                    }
+                    else
+                    {
+                        byte[] temp = new byte[readCount];
+                        Buffer.BlockCopy(buffer, 0, temp, 0, readCount);
+                        byte[] result = Encrypt(temp, key);
+                        writeFs.Write(result, 0, result.Length);
+                    }
+                    float progress = (float)readFs.Position / readFs.Length;
+                    progressCallback?.Invoke(progress);
+                    yield return 0;
+                }
+            }
         }
     }
 
-    public static void Decrypt(string inFilePath, string outFilePath, byte[] key)
+    /// <summary>
+    /// 加密字节数组
+    /// </summary>
+    /// <param name="src">要加密的字节数组</param>
+    /// <param name="key">密钥</param>
+    /// <returns></returns>
+    public static byte[] Encrypt(byte[] src, byte[] key)
     {
-        byte[] src;
-
-        //读取文件
-        using (FileStream fs = File.OpenRead(inFilePath))
+        using (RijndaelManaged rDel = new RijndaelManaged())
         {
-            src = new byte[fs.Length];
-            fs.Read(src, 0, src.Length);
-        }
+            rDel.Key = key;
+            rDel.Mode = CipherMode.ECB;
+            rDel.Padding = PaddingMode.PKCS7;
 
-        //解密文件
-        RijndaelManaged rDel = new RijndaelManaged();
-        rDel.Key = key;
-        rDel.Mode = CipherMode.ECB;
-        rDel.Padding = PaddingMode.PKCS7;
-
-        ICryptoTransform cTransform = rDel.CreateDecryptor();
-        byte[] resultArray = cTransform.TransformFinalBlock(src, 0, src.Length);
-
-        //写入文件
-        using (FileStream fs = File.Create(outFilePath))
-        {
-            fs.Write(resultArray, 0, resultArray.Length);
+            using (ICryptoTransform cTransform = rDel.CreateEncryptor())
+            {
+                byte[] resultArray = cTransform.TransformFinalBlock(src, 0, src.Length);
+                return resultArray;
+            }
         }
     }
 
+    /// <summary>
+    /// 解密磁盘中的文件
+    /// </summary>
+    /// <param name="inFilePath">要解密的文件的路径</param>
+    /// <param name="outFilePath">解密后的文件的路径</param>
+    /// <param name="key">密钥</param>
+    /// <param name="progressCallback">进度回调，范围0-1</param>
+    /// <returns></returns>
+    public static IEnumerator DecryptFile(string inFilePath, string outFilePath, byte[] key, UnityAction<float> progressCallback)
+    {
+        const int D_BLOCKSIZE = 1048592;
+        byte[] buffer;
+        int readCount = 0;
+
+        //读取文件
+        using (FileStream readFs = File.OpenRead(inFilePath))
+        {
+            using (FileStream writeFs = File.Create(outFilePath))
+            {
+                buffer = new byte[D_BLOCKSIZE];
+                while ((readCount = readFs.Read(buffer, 0, D_BLOCKSIZE)) > 0)
+                {
+                    if (readCount == D_BLOCKSIZE)
+                    {
+                        byte[] result = Decrypt(buffer, key);
+                        writeFs.Write(result, 0, result.Length);
+                    }
+                    else
+                    {
+                        byte[] temp = new byte[readCount];
+                        Buffer.BlockCopy(buffer, 0, temp, 0, readCount);
+                        byte[] result = Decrypt(temp, key);
+                        writeFs.Write(result, 0, result.Length);
+                    }
+                    float progress = (float)readFs.Position / readFs.Length;
+                    progressCallback?.Invoke(progress);
+                    yield return 0;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 解密字节数组
+    /// </summary>
+    /// <param name="src">要解密的字节数组</param>
+    /// <param name="key">密钥</param>
+    /// <returns></returns>
+    public static byte[] Decrypt(byte[] src, byte[] key)
+    {
+        using (RijndaelManaged rDel = new RijndaelManaged())
+        {
+            rDel.Key = key;
+            rDel.Mode = CipherMode.ECB;
+            rDel.Padding = PaddingMode.PKCS7;
+
+            using (ICryptoTransform cTransform = rDel.CreateDecryptor())
+            {
+                byte[] resultArray = cTransform.TransformFinalBlock(src, 0, src.Length);
+                return resultArray;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 将字节数组按指定大小划分
+    /// </summary>
+    /// <param name="ary"></param>
+    /// <param name="subSize">要切割的大小</param>
+    /// <returns></returns>
+    public static List<byte[]> SplitArray(byte[] ary, int subSize)
+    {
+        int count = ary.Length % subSize == 0 ? ary.Length / subSize : ary.Length / subSize + 1;
+        List<byte[]> subAryList = new List<byte[]>();
+        for (int i = 0; i < count; i++)
+        {
+            int index = i * subSize;
+            byte[] subary = ary.Skip(index).Take(subSize).ToArray();
+            subAryList.Add(subary);
+        }
+        return subAryList;
+    }
 }

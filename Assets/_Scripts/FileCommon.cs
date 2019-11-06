@@ -232,7 +232,7 @@ public class FileCommon
                         fs.Write(resultArray, 0, resultArray.Length);
 
                         float progress = i / (float)srcs.Count;
-                        progressCallback.Invoke(progress);
+                        progressCallback?.Invoke(progress);
                         yield return 0;
                     }
                 }
@@ -271,7 +271,7 @@ public class FileCommon
                         fs.Write(resultArray, 0, resultArray.Length);
 
                         float progress = i / (float)srcs.Count;
-                        progressCallback.Invoke(progress);
+                        progressCallback?.Invoke(progress);
                         yield return 0;
                     }
                 }

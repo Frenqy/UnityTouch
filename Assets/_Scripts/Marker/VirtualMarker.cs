@@ -165,9 +165,6 @@ namespace VIC.Creator.Marker
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(OnExpand);
             }
-
-            //在折叠当前按钮的时候获取一次当前按钮设置
-            GetSettingInfo();
         }
 
         public void GetSettingInfo()

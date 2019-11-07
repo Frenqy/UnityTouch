@@ -21241,7 +21241,7 @@ PrefabInstance:
     - target: {fileID: 114618955383170242, guid: 7318a0ba7dcef8e4690ced9544d04da4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114618955383170242, guid: 7318a0ba7dcef8e4690ced9544d04da4,
         type: 3}
@@ -21376,7 +21376,7 @@ PrefabInstance:
     - target: {fileID: 114618955383170242, guid: 7318a0ba7dcef8e4690ced9544d04da4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ExitEditMode
+      value: SaveProject
       objectReference: {fileID: 0}
     - target: {fileID: 114618955383170242, guid: 7318a0ba7dcef8e4690ced9544d04da4,
         type: 3}
@@ -50029,7 +50029,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1546210269}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -57757,7 +57757,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1781027062
 RectTransform:
   m_ObjectHideFlags: 0

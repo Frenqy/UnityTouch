@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TouchScript;
 using VIC.Creator.Marker;
+using System.Linq;
 
 namespace VIC.Creator.UI
 {
@@ -45,6 +46,12 @@ namespace VIC.Creator.UI
         /// </summary>
         private bool isEnterEdit = false;
 
+        #region VirtualMarker相关配置
+
+        VirtualMarker virtualMk;
+        Dictionary<int, VirtualMarker> VMkDict = new Dictionary<int, VirtualMarker>();
+        Setting setting = new Setting();
+        #endregion
 
         public override void OnEnable()
         {
@@ -62,29 +69,42 @@ namespace VIC.Creator.UI
             {
                 TouchManager.Instance.PointersUpdated -= OnPressedHandler;
             }
-
         }
 
+        /// <summary>
+        /// 退出编辑模式
+        /// </summary>
         public void ExitEditMode()
         {
             if (isEnterEdit)
             {
                 exitConfirmAnimator.Play("Modal Dialog In");
-
             }
             else
             {
                 ResetSignal();
+                ListTabsManager.Instance.PanelAnim(0);
+                this.enabled = false;
             }
         }
 
+        public void SaveProject()
+        {
+            ResetSignal();
+            setting.markers = VMkDict.Values.Select(x => x.mkSetting).ToList();
+            StartCoroutine(SettingManager.PackSetting(setting, null));
+            
+        }
+
+        /// <summary>
+        /// 编辑界面的标志位和动画效果重置
+        /// </summary>
         public void ResetSignal()
         {
             readingAnimator.Play("Normal");
-            ListTabsManager.Instance.PanelAnim(0);
             isEnterEdit = false;
             isReading = false;
-            this.enabled = false;
+            virtualMk.gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -155,7 +175,6 @@ namespace VIC.Creator.UI
             return false;
         }
 
-
         /// <summary>
         /// 读取MK信息 读取完毕进入编辑状态
         /// </summary>
@@ -170,15 +189,23 @@ namespace VIC.Creator.UI
             ShowMediaList(true);
         }
 
-        VirtualMarker virtualMk;
-
         /// <summary>
         /// 设置虚拟Maker
         /// </summary>
         private void SetupVirtualMarker(int index)
         {
-            virtualMk = Instantiate(virtualMkPrefab, virtualPos).GetComponent<VirtualMarker>();
-            virtualMk.SetMkInfo(index);
+            if (VMkDict.ContainsKey(index))
+            {
+                virtualMk = VMkDict[index];
+                virtualMk.gameObject.SetActive(true);
+            }
+            else
+            {
+                virtualMk = Instantiate(virtualMkPrefab, virtualPos).GetComponent<VirtualMarker>();
+                virtualMk.SetMkInfo(index);
+                VMkDict.Add(index, virtualMk);
+            }
+
         }
 
         /// <summary>
@@ -188,5 +215,6 @@ namespace VIC.Creator.UI
         {
             mediaList.SetActive(visible);
         }
+
     }
 }

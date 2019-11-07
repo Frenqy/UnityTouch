@@ -15,12 +15,17 @@ namespace VIC.Creator.Marker
         //private List<CardBase> cardList = new List<CardBase>();
         private Transform mediaPos { get; set; }
         private bool canAdd = false;
+        private Setting setting = new Setting();
 
         private void Awake()
         {
             Instance = this;
         }
 
+        /// <summary>
+        /// 设置
+        /// </summary>
+        /// <param name="pos"></param>
         public void SetMediaPos(Transform pos)
         {
             mediaPos = pos;

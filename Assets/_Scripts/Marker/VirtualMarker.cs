@@ -5,6 +5,9 @@ using UnityEngine.UI;
 using System;
 using System.Linq;
 
+/// <summary>
+/// 单个虚拟Marker上的功能
+/// </summary>
 namespace VIC.Creator.Marker
 {
     /// <summary>
@@ -21,6 +24,8 @@ namespace VIC.Creator.Marker
         public AnyButtonClick onAnyBtnExpand;
         public AnyButtonClick onAnyBtnCollapse;
         public Text mkID;
+
+        public MarkerSetting mkSetting = new MarkerSetting();
 
         private void OnEnable()
         {
@@ -86,16 +91,20 @@ namespace VIC.Creator.Marker
         //    }
         //}
 
+            /// <summary>
+            /// 保存单个Marker上的信息
+            /// 
+            /// </summary>
         private void SaveSetting()
         {
-            MarkerSetting marker = new MarkerSetting();
-            marker.MarkerID = int.Parse(mkID.text);
-            marker.buttonSetting = btnActions.Select(x => x.buttonSetting).ToList();
+            //MarkerSetting marker = new MarkerSetting();
+            mkSetting.MarkerID = int.Parse(mkID.text);
+            mkSetting.buttonSetting = btnActions.Select(x => x.buttonSetting).ToList();
 
-            Setting setting = new Setting();
-            setting.markers.Add(marker);
+            //Setting setting = new Setting();
+            //setting.markers.Add(marker);
 
-            SettingManager.PackSetting(setting, null);
+            //SettingManager.PackSetting(setting, null);
 
             //tip:在完成打包操作之后 必须清理已有的CardBase（未完成）
         }

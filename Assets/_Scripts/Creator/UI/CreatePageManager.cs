@@ -91,6 +91,7 @@ namespace VIC.Creator.UI
         public void SaveProject()
         {
             ResetSignal();
+            
             setting.markers = VMkDict.Values.Select(x => x.mkSetting).ToList();
             StartCoroutine(SettingManager.PackSetting(setting, null));
             

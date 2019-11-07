@@ -25,7 +25,12 @@ namespace VIC.Creator.Marker
         public AnyButtonClick onAnyBtnCollapse;
         public Text mkID;
 
-        public MarkerSetting mkSetting = new MarkerSetting();
+        private MarkerSetting trueMkSetting = new MarkerSetting();
+        public MarkerSetting mkSetting { get {
+                trueMkSetting.MarkerID = int.Parse(mkID.text);
+                trueMkSetting.buttonSetting = btnActions.Select(x => x.buttonSetting).ToList();
+                return trueMkSetting;
+            } }
 
         private void OnEnable()
         {
@@ -95,11 +100,10 @@ namespace VIC.Creator.Marker
             /// 保存单个Marker上的信息
             /// 
             /// </summary>
-        private void SaveSetting()
+        public void SaveSetting()
         {
             //MarkerSetting marker = new MarkerSetting();
-            mkSetting.MarkerID = int.Parse(mkID.text);
-            mkSetting.buttonSetting = btnActions.Select(x => x.buttonSetting).ToList();
+            
 
             //Setting setting = new Setting();
             //setting.markers.Add(marker);

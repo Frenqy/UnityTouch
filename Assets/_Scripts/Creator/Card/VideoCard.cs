@@ -1,63 +1,62 @@
-﻿using RenderHeads.Media.AVProVideo.Demos;
-using System;
+﻿using RenderHeads.Media.AVProVideo;
+using RenderHeads.Media.AVProVideo.Demos;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
-using UnityEngine.UI;
-using RenderHeads.Media.AVProVideo;
-using UnityEngine.Animations;
+using VIC.Core;
 
-public class VideoCard : CardBase
+namespace VIC.Creator.Marker
 {
-    private RectTransform VideoDisplay; //主播放器
-    private RectTransform UI;   //UI元素的父物体
-
-    protected override void Start()
+    public class VideoCard : CardBase
     {
-        IntroImg = transform.Find("UI/IntroImg").gameObject;
-        AddBtn = transform.Find("UI/AddBtn").gameObject;
-        CloseBtn = transform.Find("UI/CloseBtn").gameObject;
-        VideoDisplay = transform.Find("VideoDisplay").GetComponent<RectTransform>();
-        UI = transform.Find("UI").GetComponent<RectTransform>();
-    }
+        private RectTransform VideoDisplay; //主播放器
+        private RectTransform UI;   //UI元素的父物体
 
-    public override void AddMedia()
-    {
-        base.AddMedia();
+        protected override void Start()
+        {
+            IntroImg = transform.Find("UI/IntroImg").gameObject;
+            AddBtn = transform.Find("UI/AddBtn").gameObject;
+            CloseBtn = transform.Find("UI/CloseBtn").gameObject;
+            VideoDisplay = transform.Find("VideoDisplay").GetComponent<RectTransform>();
+            UI = transform.Find("UI").GetComponent<RectTransform>();
+        }
 
-        //打开窗口获取文件
-        mediaSetting.mediaType = MediaType.Video;
-        mediaSetting.mediaContent = FileCommon.OpenFile("视频", new string[] { "mp4", "mkv", "avi", "wmv" });
+        public override void AddMedia()
+        {
+            base.AddMedia();
 
-        ShowVideo();
-    }
+            //打开窗口获取文件
+            mediaSetting.mediaType = MediaType.Video;
+            mediaSetting.mediaContent = FileCommon.OpenFile("视频", new string[] { "mp4", "mkv", "avi", "wmv" });
 
-    private void ShowVideo()
-    {
-        //背景颜色换回白色
-        VideoDisplay.GetComponent<DisplayUGUI>().color = Color.white;
+            ShowVideo();
+        }
 
-        //设置VCR脚本
-        VCR vcr = GetComponentInChildren<VCR>();
-        vcr.paths = new string[] { mediaSetting.mediaContent };
-        vcr.OnOpenVideoFile();
+        private void ShowVideo()
+        {
+            //背景颜色换回白色
+            VideoDisplay.GetComponent<DisplayUGUI>().color = Color.white;
 
-        //因为VCR内切换播放器需要一点时间 所以延迟计算播放器的大小变化
-        StartCoroutine(DelaySetSize());
-    }
+            //设置VCR脚本
+            VCR vcr = GetComponentInChildren<VCR>();
+            vcr.paths = new string[] { mediaSetting.mediaContent };
+            vcr.OnOpenVideoFile();
 
-    private IEnumerator DelaySetSize()
-    {
-        yield return new WaitForSeconds(1);
-        Vector2 oldSize = VideoDisplay.sizeDelta;
+            //因为VCR内切换播放器需要一点时间 所以延迟计算播放器的大小变化
+            StartCoroutine(DelaySetSize());
+        }
 
-        VideoDisplay.GetComponent<DisplayUGUI>().SetNativeSize();
+        private IEnumerator DelaySetSize()
+        {
+            yield return new WaitForSeconds(1);
+            Vector2 oldSize = VideoDisplay.sizeDelta;
 
-        //计算大小变化
-        Vector2 newSize = VideoDisplay.sizeDelta;
-        Vector2 scale = newSize / oldSize;
+            VideoDisplay.GetComponent<DisplayUGUI>().SetNativeSize();
 
-        UI.sizeDelta *= scale;
+            //计算大小变化
+            Vector2 newSize = VideoDisplay.sizeDelta;
+            Vector2 scale = newSize / oldSize;
+
+            UI.sizeDelta *= scale;
+        }
     }
 }

@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
-using System.Linq;
+using VIC.Core;
 
 /// <summary>
 /// 单个虚拟Marker上的功能
@@ -26,11 +24,15 @@ namespace VIC.Creator.Marker
         public Text mkID;
 
         private MarkerSetting trueMkSetting = new MarkerSetting();
-        public MarkerSetting mkSetting { get {
+        public MarkerSetting mkSetting
+        {
+            get
+            {
                 trueMkSetting.MarkerID = int.Parse(mkID.text);
                 trueMkSetting.buttonSetting = btnActions.Select(x => x.buttonSetting).ToList();
                 return trueMkSetting;
-            } }
+            }
+        }
 
         private void OnEnable()
         {
@@ -46,7 +48,7 @@ namespace VIC.Creator.Marker
 
         private void Start()
         {
-            for(int i=0; i<btnActions.Length; i++)
+            for (int i = 0; i < btnActions.Length; i++)
             {
                 btnActions[i].Init(onAnyBtnExpand, onAnyBtnCollapse);
                 btnActions[i].mediaPos = MediaParent[i];
@@ -96,14 +98,14 @@ namespace VIC.Creator.Marker
         //    }
         //}
 
-            /// <summary>
-            /// 保存单个Marker上的信息
-            /// 
-            /// </summary>
+        /// <summary>
+        /// 保存单个Marker上的信息
+        /// 
+        /// </summary>
         public void SaveSetting()
         {
             //MarkerSetting marker = new MarkerSetting();
-            
+
 
             //Setting setting = new Setting();
             //setting.markers.Add(marker);
@@ -130,15 +132,15 @@ namespace VIC.Creator.Marker
         private AnyButtonClick onCollapseDelegate;
 
         private ButtonSetting button = new ButtonSetting();
-        public ButtonSetting buttonSetting 
-        { 
-            get 
+        public ButtonSetting buttonSetting
+        {
+            get
             {
                 //初始数据
                 button.buttonID = btnIndex;
                 button.previewPath = string.Empty;
                 //遍历获取CardBase
-                var cards = mediaPos.GetComponentsInChildren<CardBase>(true);
+                CardBase[] cards = mediaPos.GetComponentsInChildren<CardBase>(true);
                 button.mediaList = cards.Select(x => x.mediaSetting).ToList();
 
                 return button;
@@ -151,8 +153,8 @@ namespace VIC.Creator.Marker
             gradient = previewImg.gameObject.GetComponent<UIGradient>();
             gradient.enabled = false;
 
-            this.onExpandDelegate = onExpand;
-            this.onCollapseDelegate = onCollapse;
+            onExpandDelegate = onExpand;
+            onCollapseDelegate = onCollapse;
         }
 
         private void OnExpand()
@@ -169,7 +171,7 @@ namespace VIC.Creator.Marker
 
         public void OnCollapse()
         {
-            if(isExpanded)
+            if (isExpanded)
             {
                 isExpanded = false;
                 gradient.enabled = false;

@@ -1,31 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using TouchScript;
+﻿using System;
 using TouchScript.Gestures;
-using System;
+using UnityEngine;
 
-/// <summary>
-/// 为手势操作的物体设置层级结构->置于其它图片上方
-/// </summary>
-public class AlwaysTop : MonoBehaviour
+namespace VIC.Player.Marker
 {
-    private void Start()
+    /// <summary>
+    /// 为手势操作的物体设置层级结构->置于其它图片上方
+    /// </summary>
+    public class AlwaysTop : MonoBehaviour
     {
-        PressGesture pressGesture = GetComponent<PressGesture>();
-        if (pressGesture != null) pressGesture.Pressed += pressedHandler;
-    }
+        private void Start()
+        {
+            PressGesture pressGesture = GetComponent<PressGesture>();
+            if (pressGesture != null)
+            {
+                pressGesture.Pressed += pressedHandler;
+            }
+        }
 
-    private void OnEnable()
-    {
-        transform.SetAsLastSibling();
-        transform.parent.SetAsLastSibling();
-    }
+        private void OnEnable()
+        {
+            transform.SetAsLastSibling();
+            transform.parent.SetAsLastSibling();
+        }
 
-    private void pressedHandler(object sender, EventArgs e)
-    {
-        transform.SetAsLastSibling();
-        transform.parent.SetAsLastSibling();
+        private void pressedHandler(object sender, EventArgs e)
+        {
+            transform.SetAsLastSibling();
+            transform.parent.SetAsLastSibling();
+        }
     }
 }

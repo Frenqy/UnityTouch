@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using VIC.Core;
 
 namespace VIC.Creator.Marker
 {
@@ -43,7 +42,7 @@ namespace VIC.Creator.Marker
 
         public void AddIntoMarker(int type)
         {
-            if(canAdd)
+            if (canAdd)
             {
                 switch (type)
                 {

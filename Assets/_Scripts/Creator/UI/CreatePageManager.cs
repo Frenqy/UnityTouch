@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using TouchScript;
-using VIC.Creator.Marker;
 using System.Linq;
+using TouchScript;
+using UnityEngine;
+using VIC.Core;
+using VIC.Creator.Marker;
 
 namespace VIC.Creator.UI
 {
@@ -48,9 +49,9 @@ namespace VIC.Creator.UI
 
         #region VirtualMarker相关配置
 
-        VirtualMarker virtualMk;
-        Dictionary<int, VirtualMarker> VMkDict = new Dictionary<int, VirtualMarker>();
-        Setting setting = new Setting();
+        private VirtualMarker virtualMk;
+        private Dictionary<int, VirtualMarker> VMkDict = new Dictionary<int, VirtualMarker>();
+        private Setting setting = new Setting();
         #endregion
 
         public override void OnEnable()
@@ -84,17 +85,17 @@ namespace VIC.Creator.UI
             {
                 ResetSignal();
                 ListTabsManager.Instance.PanelAnim(0);
-                this.enabled = false;
+                enabled = false;
             }
         }
 
         public void SaveProject()
         {
             ResetSignal();
-            
+
             setting.markers = VMkDict.Values.Select(x => x.mkSetting).ToList();
             StartCoroutine(SettingManager.PackSetting(setting, null));
-            
+
         }
 
         /// <summary>
@@ -142,7 +143,10 @@ namespace VIC.Creator.UI
         /// </summary>
         private void CheckPlaceArea()
         {
-            if (isEnterEdit) return;
+            if (isEnterEdit)
+            {
+                return;
+            }
 
             if (IsMkIn() == true && !isReading) // 
             {
@@ -180,7 +184,7 @@ namespace VIC.Creator.UI
         /// 读取MK信息 读取完毕进入编辑状态
         /// </summary>
         /// <returns></returns>
-        IEnumerator ReadMkInfo()
+        private IEnumerator ReadMkInfo()
         {
             isReading = true;
             readingAnimator.Play("Highlighted");

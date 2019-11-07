@@ -1,42 +1,44 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
+using VIC.Core;
 
-public abstract class CardBase : MonoBehaviour
+namespace VIC.Creator.Marker
 {
-    protected Media media = new Media();
-    public virtual Media mediaSetting
+    public abstract class CardBase : MonoBehaviour
     {
-        get
+        protected Media media = new Media();
+        public virtual Media mediaSetting
         {
-            media.pos = transform.position;
-            media.rotate = transform.rotation;
-            media.scale = transform.localScale;
-            return media;
+            get
+            {
+                media.pos = transform.position;
+                media.rotate = transform.rotation;
+                media.scale = transform.localScale;
+                return media;
+            }
+        }
+
+
+        protected GameObject IntroImg;
+        protected GameObject AddBtn;
+        protected GameObject CloseBtn;
+
+        protected virtual void Start()
+        {
+            IntroImg = transform.Find("IntroImg").gameObject;
+            AddBtn = transform.Find("AddBtn").gameObject;
+            CloseBtn = transform.Find("CloseBtn").gameObject;
+        }
+
+        public virtual void AddMedia()
+        {
+            IntroImg.SetActive(false);
+            AddBtn.SetActive(true);
+        }
+
+        public void Close()
+        {
+            Destroy(gameObject);
         }
     }
-
-
-    protected GameObject IntroImg;
-    protected GameObject AddBtn;
-    protected GameObject CloseBtn;
-
-    protected virtual void Start()
-    {
-        IntroImg = transform.Find("IntroImg").gameObject;
-        AddBtn = transform.Find("AddBtn").gameObject;
-        CloseBtn = transform.Find("CloseBtn").gameObject;
-    }
-
-    public virtual void AddMedia()
-    {
-        IntroImg.SetActive(false);
-        AddBtn.SetActive(true);
-    }
-
-    public void Close()
-    {
-        Destroy(gameObject);
-    }
 }
+

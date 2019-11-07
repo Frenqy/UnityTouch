@@ -1,49 +1,50 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TouchScript;
+﻿using TouchScript;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// 用于设置UI左上角的参数：参数影响三角形生成算法，进而影响操作UI时手指的干扰程度和距离
-/// </summary>
-public class ArgsSetting : MonoBehaviour
+namespace VIC.Core
 {
-    public static float Distance = 200;
-    public static float Tolerance = 10;
-
-    public Slider DistanceSlider;
-    public Slider ToleranceSlider;
-    public Text DistanceText;
-    public Text ToleranceText;
-
-    private void OnEnable()
+    /// <summary>
+    /// 用于设置UI左上角的参数：参数影响三角形生成算法，进而影响操作UI时手指的干扰程度和距离
+    /// </summary>
+    public class ArgsSetting : MonoBehaviour
     {
-        DistanceSlider.onValueChanged.AddListener(DistanceChange);
-        ToleranceSlider.onValueChanged.AddListener(ToleranceChange);
-    }
+        public static float Distance = 200;
+        public static float Tolerance = 10;
 
-    private void OnDisable()
-    {
-        DistanceSlider.onValueChanged.RemoveListener(DistanceChange);
-        ToleranceSlider.onValueChanged.RemoveListener(ToleranceChange);
-    }
+        public Slider DistanceSlider;
+        public Slider ToleranceSlider;
+        public Text DistanceText;
+        public Text ToleranceText;
 
-    private void Awake()
-    {
-        DistanceChange(DistanceSlider.value);
-        ToleranceChange(ToleranceSlider.value);
-    }
+        private void OnEnable()
+        {
+            DistanceSlider.onValueChanged.AddListener(DistanceChange);
+            ToleranceSlider.onValueChanged.AddListener(ToleranceChange);
+        }
 
-    private void DistanceChange(float val)
-    {
-        DistanceText.text = $"{val:F2} CM";
-        Distance = val * TouchManager.Instance.DotsPerCentimeter;
-    }
+        private void OnDisable()
+        {
+            DistanceSlider.onValueChanged.RemoveListener(DistanceChange);
+            ToleranceSlider.onValueChanged.RemoveListener(ToleranceChange);
+        }
 
-    private void ToleranceChange(float val)
-    {
-        Tolerance = val;
-        ToleranceText.text = val.ToString() +" 度";
+        private void Awake()
+        {
+            DistanceChange(DistanceSlider.value);
+            ToleranceChange(ToleranceSlider.value);
+        }
+
+        private void DistanceChange(float val)
+        {
+            DistanceText.text = $"{val:F2} CM";
+            Distance = val * TouchManager.Instance.DotsPerCentimeter;
+        }
+
+        private void ToleranceChange(float val)
+        {
+            Tolerance = val;
+            ToleranceText.text = val.ToString() + " 度";
+        }
     }
 }
